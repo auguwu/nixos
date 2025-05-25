@@ -150,8 +150,9 @@ in {
       safe.directory = "*"; # i don't care, even though i probably should
       push.autoSetupRemote = true;
       commit.gpgsign = true;
+      credential.helper = "store"; # temporary fix for now
+
       includeIf."gitdir:/Workspaces/Noelware/Internal/".path = "/Workspaces/Noelware/.gitconfig";
-      includeIf."gitdir:/Workspaces/Noel/Internal/".path = "/Workspaces/Noel/.gitconfig";
     };
   };
 
