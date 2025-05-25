@@ -83,8 +83,8 @@ in {
         withVencord = true;
       })
 
-      vscode-insiders
       telegram-desktop
+      firefox
       spotify
     ]));
 

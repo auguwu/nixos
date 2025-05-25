@@ -65,7 +65,8 @@
     inherit (nixpkgs) lib;
     inherit (lib) genAttrs;
 
-    eachSystem = genAttrs lib.systems.flakeExposed;
+    # only generate for systems i actually have
+    eachSystem = genAttrs ["x86_64-linux" "aarch64-linux"];
     overlays = [
       vscode-insiders.overlays.default
       darwin.overlays.default

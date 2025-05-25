@@ -225,6 +225,7 @@
           wakatime.vscode-wakatime
           ms-vscode.powershell
           catppuccin.catppuccin-vsc-icons
+          vadimcn.vscode-lldb
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {

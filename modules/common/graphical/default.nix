@@ -1,18 +1,19 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     firefox
-    termius
-    flameshot
+    gnome-screenshot # since I use GNOME and Flameshot keeps fucking up with `ume screenshot`
     telegram-desktop
-    # (discord-canary.override {
-    #   withVencord = true;
-    # })
+    (discord-canary.override {
+      withVencord = true;
+    })
 
-    discord-canary
+    # IDEs
+    jetbrains.idea-community
 
+    thunderbird # TODO(@noel): switch to Seoul once I finish it
     spotify
-    thunderbird
     slack
+
     # cattle
     # seoul
   ];
