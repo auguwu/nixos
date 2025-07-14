@@ -1,3 +1,2 @@
-modules/floofbox/wireguard.nix
 secrets/*.yaml
 secrets/*.yml
