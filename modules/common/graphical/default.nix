@@ -7,9 +7,6 @@
       withVencord = true;
     })
 
-    # IDEs
-    jetbrains.idea-community
-
     thunderbird # TODO(@noel): switch to Seoul once I finish it
     spotify
     slack

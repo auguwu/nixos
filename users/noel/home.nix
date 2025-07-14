@@ -60,6 +60,8 @@ in {
   };
 
   home.packages = [
+    pkgs.gcr
+
     (import
       ../../lib/scripts/rebuild-system/${
         if machine == "miki"
@@ -179,6 +181,9 @@ in {
     enable = true;
     config.theme = "Nord";
   };
+
+  # enable GNOME Keyright for secure secrets
+  services.gnome-keyring.enable = true;
 
   dconf = {
     enable = machine != "miki";

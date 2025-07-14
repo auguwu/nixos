@@ -42,9 +42,14 @@ in
       [
         {
           nixpkgs = {
-            inherit overlays;
-
             config.allowUnfree = true;
+            overlays =
+              [
+                (final: prev: {
+                  ume = inputs.ume.packages.${system}.ume;
+                })
+              ]
+              ++ overlays;
           };
         }
 

@@ -41,9 +41,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noel = {
-      url = "github:auguwu/nixpkgs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+    ume = {
+      url = "github:auguwu/ume/4.2.1";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        noelware.follows = "noelware";
+      };
     };
 
     vscode-insiders = {
@@ -58,8 +61,8 @@
     darwin,
     sops-nix,
     noelware,
-    noel,
     vscode-insiders,
+    ume,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -72,7 +75,6 @@
       darwin.overlays.default
 
       (import noelware)
-      (import noel)
     ];
 
     mkSystem = import ./lib/mkSystem.nix {
@@ -82,6 +84,12 @@
     nixpkgsFor = system:
       import nixpkgs {
         inherit system;
+
+        overlays = [
+          (final: prev: {
+            ume = ume.packages.${system}.ume;
+          })
+        ];
       };
   in {
     formatter = eachSystem (system: (nixpkgsFor system).alejandra);

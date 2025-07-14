@@ -70,15 +70,13 @@
   services.pipewire.alsa.support32Bit = true;
   services.pipewire.pulse.enable = true;
 
-  services.xserver = {
-    xkb.layout = "us";
-
+  services = {
+    xserver.xkb.layout = "us";
+    desktopManager.gnome.enable = true;
     displayManager.gdm = {
       enable = true;
       wayland = true;
     };
-
-    desktopManager.gnome.enable = true;
   };
 
   programs.dconf.enable = true;

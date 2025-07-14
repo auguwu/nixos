@@ -21,7 +21,7 @@
 
   environment.systemPackages = with pkgs; [
     (wrapHelm kubernetes-helm {
-      plugins = [charted-helm-plugin];
+      #plugins = [charted-helm-plugin];
     })
 
     minio-client
@@ -30,9 +30,8 @@
     kubectl
 
     # lsps
-    terraform-ls
-    opentofu-ls
     alejandra
+    tofu-ls
     nil
 
     # other utilities
@@ -56,14 +55,8 @@
     jq
     uv
 
-    # C++/Protobuf
-    clang-tools_18
-    clang_18
+    # Protobuf
     protobuf
-
-    # Bazel
-    bazel-buildtools
-    bazel_7
 
     # Rust
     cargo-whatfeatures

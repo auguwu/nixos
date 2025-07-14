@@ -221,11 +221,12 @@
           xaver.clang-format
           skellock.just
           unifiedjs.vscode-mdx
-          bazelbuild.vscode-bazel
           wakatime.vscode-wakatime
           ms-vscode.powershell
           catppuccin.catppuccin-vsc-icons
           vadimcn.vscode-lldb
+          bazelbuild.vscode-bazel
+          mesonbuild.mesonbuild
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
@@ -285,20 +286,70 @@
           }
 
           {
-            name = "opentofu-vscode";
-            publisher = "auguwu";
-            version = "0.1.3";
-            sha256 = "sha256-nxP+Aum88kzvUYS0AFgBzOuy6S+eWXC1t1H8fFzX0VM=";
+            name = "vscode-opentofu";
+            publisher = "OpenTofu";
+            version = "0.3.3";
+            sha256 = "sha256-4142LtuWpWhAZqklHjMyZuFoTrGwRIqXxGjC+xBn5sc=";
           }
         ];
 
       userSettings = {
-        "telemetry.telemetryLevel" = "off";
+        ##                         LANGUAGE-SPECIFIC                       ##
+        "[terraform-vars]"."editor.defaultFormatter" = "hashicorp.terraform";
+        "[opentofu-vars]"."editor.defaultFormatter" = "OpenTofu.vscode-opentofu";
+        "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
+        "[opentofu]"."editor.defaultFormatter" = "OpenTofu.vscode-opentofu";
+        "[starlark]"."editor.defaultFormatter" = "BazelBuild.vscode-bazel";
+        "[meson]"."editor.defaultFormatter" = "mesonbuild.mesonbuild";
+        "[toml]"."editor.defaultFormatter" = "tamasfe.even-better-toml";
+        "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
+        "[cpp]"."editor.defaultFormatter" = "xaver.clang-format";
+        "[c]"."editor.defaultFormatter" = "xaver.clang-format";
+        "[h]"."editor.defaultFormatter" = "xaver.clang-format";
 
+        "[yaml]"."editor.quickSuggestions" = {
+          other = true;
+          comments = true;
+          strings = true;
+        };
+
+        "[nix]" = {
+          "editor.defaultFormatter" = "jnoortheen.nix-ide";
+          "editor.tabSize" = 2;
+        };
+
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "${pkgs.nil}/bin/nil";
+        "nix.serverSettings".nil = {
+          formatting.command = ["nix" "fmt" "--" "--"];
+          nix = {
+            binary = "${pkgs.nixVersions.stable}/bin/nix";
+            maxMemoryMB = 8192;
+            flake.autoArchive = true;
+            flake.autoEvalInputs = true;
+          };
+        };
+
+        "clang-format.executable" = "${pkgs.clang-tools}/bin/clang-format";
+
+        "opentofu.languageServer.enable" = true;
+        "opentofu.languageServer.path" = "${pkgs.tofu-ls}/bin/tofu-ls";
+        "opentofu.languageServer.tofu.path" = "${pkgs.opentofu}/bin/tofu";
+        "opentofu.experimentalFeatures.validateOnSave" = true;
+
+        # unfortunately i need powershell to exist
+        # i wish it didn't tho but life is life
+        "powershell.powerShellDefaultVersion" = "nixpkgs";
+        "powershell.powerShellAdditionalExePaths" = {
+          "nixpkgs" = "${pkgs.powershell}/bin/pwsh";
+        };
+
+        ##                            WORKBENCH                             ##
         "workbench.colorTheme" = "Vitesse Dark";
         "workbench.iconTheme" = "catppuccin-latte";
         "workbench.startupEditor" = "none";
 
+        ##                            EDITOR                                ##
         "editor.tabSize" = 4;
         "editor.insertSpaces" = true;
         "editor.parameterHints.enabled" = false;
@@ -320,14 +371,9 @@
           "strings" = false;
         };
 
+        ## MISC ##
+        "telemetry.telemetryLevel" = "off";
         "update.mode" = "none";
-
-        "files.trimTrailingWhitespace" = true;
-        "files.trimFinalNewlines" = true;
-        "files.insertFinalNewline" = true;
-        "files.associations" = {
-          ".*-version" = "plaintext";
-        };
 
         "explorer.confirmDelete" = false;
         "explorer.confirmDragAndDrop" = false;
@@ -380,39 +426,15 @@
 
         "vs-kubernetes"."vs-kubernetes.crd-code-completion" = "enabled";
 
-        "[yaml]"."editor.quickSuggestions" = {
-          other = true;
-          comments = true;
-          strings = true;
+        ## FILES ##
+        "files.trimTrailingWhitespace" = true;
+        "files.trimFinalNewlines" = true;
+        "files.insertFinalNewline" = true;
+        "files.associations" = {
+          ".*-version" = "plaintext";
         };
 
-        "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "${pkgs.nil}/bin/nil";
-        "nix.serverSettings".nil = {
-          formatting.command = ["nix" "fmt" "--" "--"];
-          nix = {
-            binary = "${pkgs.nixVersions.stable}/bin/nix";
-            maxMemoryMB = 4120;
-            flake.autoArchive = true;
-            flake.autoEvalInputs = true;
-          };
-        };
-
-        "clang-format.executable" = "${pkgs.clang-tools}/bin/clang-format";
-
-        "[terraform-vars]"."editor.defaultFormatter" = "hashicorp.terraform";
-        "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
-        "[toml]"."editor.defaultFormatter" = "tamasfe.even-better-toml";
-        "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
-        "[cpp]"."editor.defaultFormatter" = "xaver.clang-format";
-        "[c]"."editor.defaultFormatter" = "xaver.clang-format";
-        "[h]"."editor.defaultFormatter" = "xaver.clang-format";
-
-        "[nix]" = {
-          "editor.defaultFormatter" = "jnoortheen.nix-ide";
-          "editor.tabSize" = 2;
-        };
-
+        ## WINDOW ##
         "window.zoomLevel" =
           if machine == "kotoha"
           then 0.6
@@ -420,18 +442,8 @@
 
         "window.titleBarStyle" = "custom";
 
+        ## TERMINAL ##
         "terminal.integrated.fontSize" = 16;
-
-        "opentofu.lsp.enable" = true;
-        "opentofu.lsp.binary" = "${pkgs.opentofu-ls}/bin/opentofu-ls";
-        "opentofu.binary" = "${pkgs.opentofu}/bin/tofu";
-
-        # unfortunately i need powershell to exist
-        # i wish it didn't tho but life is life
-        "powershell.powerShellDefaultVersion" = "nixpkgs";
-        "powershell.powerShellAdditionalExePaths" = {
-          "nixpkgs" = "${pkgs.powershell}/bin/pwsh";
-        };
       };
     };
   };
