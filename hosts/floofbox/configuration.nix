@@ -1,23 +1,17 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{
-  pkgs,
-  lib,
-  ...
-}: {
-  imports =
-    [
-      ../../modules/virtualisation/libvirt.nix
-      ../../modules/virtualisation/docker.nix
-      ../../modules/common/graphical
+{pkgs, ...}: {
+  imports = [
+    ../../modules/virtualisation/libvirt.nix
+    ../../modules/virtualisation/docker.nix
+    ../../modules/common/graphical
 
-      ../../modules/common/nixos.nix
-      ../../modules/common
+    ../../modules/common/nixos.nix
+    ../../modules/common
 
-      ./hardware.nix
-    ]
-    ++ lib.optional (lib.pathExists ../../modules/floofbox/wireguard.nix) ../../modules/floofbox/wireguard.nix;
+    ./hardware.nix
+  ];
 
   # use grub as our bootloader
   boot.supportedFilesystems = ["ntfs"];

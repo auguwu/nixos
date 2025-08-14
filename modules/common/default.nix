@@ -70,6 +70,9 @@
     # Node.js
     nodejs_latest
 
+    # AI (:pensive:)
+    claude-code
+
     # Other utilties
     # noelctl
     # noeldoc

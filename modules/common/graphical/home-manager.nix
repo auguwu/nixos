@@ -192,6 +192,10 @@
     };
   };
 
+  home.packages = with pkgs; [
+    mesonlsp
+  ];
+
   programs.vscode = {
     enable = machine != "miki";
     package = pkgs.vscode-insiders.overrideAttrs (old: {
@@ -199,99 +203,40 @@
     });
 
     profiles.default = {
-      extensions = with pkgs.vscode-extensions;
-        [
-          astro-build.astro-vscode
-          llvm-vs-code-extensions.vscode-clangd
-          ms-vscode-remote.remote-containers
-          jnoortheen.nix-ide
-          rust-lang.rust-analyzer
-          bradlc.vscode-tailwindcss
-          dbaeumer.vscode-eslint
-          esbenp.prettier-vscode
-          mkhl.direnv
-          ms-azuretools.vscode-docker
-          github.vscode-github-actions
-          tamasfe.even-better-toml
-          golang.go
-          hashicorp.terraform
-          ms-kubernetes-tools.vscode-kubernetes-tools
-          ms-vscode-remote.remote-ssh
-          redhat.vscode-yaml
-          xaver.clang-format
-          skellock.just
-          unifiedjs.vscode-mdx
-          wakatime.vscode-wakatime
-          ms-vscode.powershell
-          catppuccin.catppuccin-vsc-icons
-          vadimcn.vscode-lldb
-          bazelbuild.vscode-bazel
-          mesonbuild.mesonbuild
-        ]
-        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "hcl";
-            publisher = "hashicorp";
-            version = "0.6.0";
-            sha256 = "sha256-Za2ODrsHR/y0X/FOhVEtbg6bNs439G6rlBHW84EZS60=";
-          }
-
-          {
-            name = "iconify";
-            publisher = "antfu";
-            version = "0.9.5";
-            sha256 = "sha256-n3JYH4oFhoQh6QXZqo7y+Y4eRIboq9DzeFQei23SZC4=";
-          }
-
-          {
-            name = "vscode-github-actions";
-            publisher = "me-dutour-mathieu";
-            version = "3.0.1";
-            sha256 = "sha256-I5qZk/svJIlnV2ggwMLu5Bfvly3vyshT5y51V4/nQLI=";
-          }
-
-          {
-            name = "pretty-ts-errors";
-            publisher = "yoavbls";
-            version = "0.6.0";
-            sha256 = "sha256-JSCyTzz10eoUNu76wNUuvPVVKq4KaVKobS1CAPqgXUA=";
-          }
-
-          {
-            name = "volar";
-            publisher = "Vue";
-            version = "2.1.8";
-            sha256 = "sha256-EfRK5LFk3IPgNPvibxiWwHq+7tkLPIPawM1WdwM5P8A=";
-          }
-
-          {
-            name = "theme-vitesse";
-            publisher = "antfu";
-            version = "0.8.3";
-            sha256 = "sha256-KkpJgJBcnMeQ1G97QS/E6GY4/p9ebZRaA5pUXPd9JB0=";
-          }
-
-          {
-            name = "lalrpop-syntax-highlight";
-            publisher = "guyutongxue";
-            version = "0.0.5";
-            sha256 = "sha256-VJBvR9pM0NPYi/RUoVQcL1tt2PZCKohwX8Dd1nz0UGY=";
-          }
-
-          {
-            name = "vscode-systemd-support";
-            publisher = "hangxingliu";
-            version = "3.0.0";
-            sha256 = "sha256-K1fXE0AxkWdHsQC3uUFcJecJqB5PpJVzVdtfPSw4+eg=";
-          }
-
-          {
-            name = "vscode-opentofu";
-            publisher = "OpenTofu";
-            version = "0.3.3";
-            sha256 = "sha256-4142LtuWpWhAZqklHjMyZuFoTrGwRIqXxGjC+xBn5sc=";
-          }
-        ];
+      extensions = with pkgs.nix-vscode-extensions.vscode-marketplace; [
+        astro-build.astro-vscode
+        llvm-vs-code-extensions.vscode-clangd
+        ms-vscode-remote.remote-containers
+        jnoortheen.nix-ide
+        #rust-lang.rust-analyzer
+        bradlc.vscode-tailwindcss
+        dbaeumer.vscode-eslint
+        esbenp.prettier-vscode
+        mkhl.direnv
+        ms-azuretools.vscode-docker
+        github.vscode-github-actions
+        tamasfe.even-better-toml
+        golang.go
+        hashicorp.terraform
+        ms-kubernetes-tools.vscode-kubernetes-tools
+        ms-vscode-remote.remote-ssh
+        redhat.vscode-yaml
+        xaver.clang-format
+        skellock.just
+        unifiedjs.vscode-mdx
+        wakatime.vscode-wakatime
+        ms-vscode.powershell
+        catppuccin.catppuccin-vsc-icons
+        bazelbuild.vscode-bazel
+        mesonbuild.mesonbuild
+        ms-vscode.cmake-tools
+        hashicorp.hcl
+        github.vscode-github-actions
+        yoavbls.pretty-ts-errors
+        vue.volar
+        opentofu.vscode-opentofu
+        antfu.theme-vitesse
+      ];
 
       userSettings = {
         ##                         LANGUAGE-SPECIFIC                       ##

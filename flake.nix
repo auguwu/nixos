@@ -53,6 +53,8 @@
       url = "github:auguwu/vscode-insiders-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   outputs = {
@@ -63,6 +65,7 @@
     noelware,
     vscode-insiders,
     ume,
+    nix-vscode-extensions,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -71,6 +74,7 @@
     # only generate for systems i actually have
     eachSystem = genAttrs ["x86_64-linux" "aarch64-linux"];
     overlays = [
+      nix-vscode-extensions.overlays.default
       vscode-insiders.overlays.default
       darwin.overlays.default
 
