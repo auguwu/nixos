@@ -72,10 +72,10 @@
 
   services = {
     xserver.xkb.layout = "us";
-    desktopManager.gnome.enable = true;
-    displayManager.gdm = {
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm = {
       enable = true;
-      wayland = true;
+      wayland.enable = true;
     };
   };
 
@@ -95,5 +95,22 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [sops];
+  environment.systemPackages = with pkgs; [
+    sops
+
+    # KDE-related
+    kdePackages.discover
+    kdePackages.kcalc
+    kdePackages.kcharselect
+    kdePackages.kclock
+    kdePackages.kcolorchooser
+    kdePackages.ksystemlog
+    kdePackages.sddm-kcm
+
+    # other utils
+    hardinfo2
+    vlc
+    wayland-utils
+    wl-clipboard
+  ];
 }

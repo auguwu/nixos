@@ -26,11 +26,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,7 +37,7 @@
     };
 
     ume = {
-      url = "github:auguwu/ume/4.2.1";
+      url = "github:auguwu/ume/4.2.2";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         noelware.follows = "noelware";
@@ -60,7 +55,6 @@
   outputs = {
     nixpkgs,
     hardware,
-    darwin,
     sops-nix,
     noelware,
     vscode-insiders,
@@ -71,12 +65,10 @@
     inherit (nixpkgs) lib;
     inherit (lib) genAttrs;
 
-    # only generate for systems i actually have
     eachSystem = genAttrs ["x86_64-linux" "aarch64-linux"];
     overlays = [
       nix-vscode-extensions.overlays.default
       vscode-insiders.overlays.default
-      darwin.overlays.default
 
       (import noelware)
     ];
@@ -112,14 +104,9 @@
         system = "x86_64-linux";
         modules = [
           hardware.nixosModules.framework-13-7040-amd
-        ];
-      };
-    };
 
-    darwinConfigurations = {
-      miki = mkSystem "miki" {
-        system = "aarch64-darwin";
-        darwin = true;
+          sops-nix.nixosModules.sops
+        ];
       };
     };
   };

@@ -7,7 +7,7 @@
     nerd-fonts.geist-mono
 
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     noto-fonts
 
     jetbrains-mono
@@ -67,16 +67,16 @@
     cargo-deny
     rustup
 
-    # Node.js
+    # languages we might need
     nodejs_latest
 
-    # AI (:pensive:)
-    claude-code
+    # Bazel
+    bazel_8
 
     # Other utilties
+    gemini-cli
+
     # noelctl
     # noeldoc
-
-    ume
   ];
 }

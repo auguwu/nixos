@@ -6,32 +6,15 @@
   overlays,
 }: name: {
   system,
-  darwin ? false,
   modules ? [],
   graphical ? true,
 }: let
   machine = ../hosts/${name}/configuration.nix;
-  userConfig =
-    if darwin
-    then {
-      users.users.noel = {
-        name = "noel";
-        home = "/Users/noel";
-      };
-    }
-    else ../users/noel;
-
-  home-manager =
-    if darwin
-    then inputs.home-manager.darwinModules.home-manager
-    else inputs.home-manager.nixosModules.home-manager;
-
-  mkSystemFn =
-    if darwin
-    then inputs.darwin.lib.darwinSystem
-    else nixpkgs.lib.nixosSystem;
+  userConfig = ../users/noel;
+  home-manager = inputs.home-manager.nixosModules.home-manager;
+  mkSystem = nixpkgs.lib.nixosSystem;
 in
-  mkSystemFn {
+  mkSystem {
     inherit system;
 
     specialArgs = {
@@ -42,14 +25,9 @@ in
       [
         {
           nixpkgs = {
+            inherit overlays;
+
             config.allowUnfree = true;
-            overlays =
-              [
-                (final: prev: {
-                  ume = inputs.ume.packages.${system}.ume;
-                })
-              ]
-              ++ overlays;
           };
         }
 

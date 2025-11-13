@@ -4,81 +4,13 @@
   ...
 }: {
   programs.ghostty = {
-    # on macOS, ghostty is currently broken!
-    enable = machine != "miki";
+    enable = true;
     installBatSyntax = true;
     enableZshIntegration = true;
     settings = {
       font-family = "JetBrains Mono";
-      theme = "rose-pine";
+      theme = "Material Darker";
       font-size = 14;
-    };
-  };
-
-  # view above; move to ghostty once it is not broken
-  programs.alacritty = {
-    enable = machine == "miki";
-    settings = {
-      terminal.shell = "${pkgs.zsh}/bin/zsh";
-
-      # Rose Pine
-      colors = {
-        primary.background = "0x191724";
-        primary.foreground = "0xe0def4";
-
-        cursor.text = "0xe0def4";
-        cursor.cursor = "0x524f67";
-
-        selection.text = "0xe0def4";
-        selection.background = "0x403d52";
-
-        normal.black = "0x26233a";
-        normal.red = "0xeb6f92";
-        normal.green = "0x31748f";
-        normal.yellow = "0xf6c177";
-        normal.blue = "0x9ccfd8";
-        normal.magenta = "0xc4a7e7";
-        normal.cyan = "0xebbcba";
-        normal.white = "0xe0def4";
-
-        bright.black = "0x6e6a86";
-        bright.red = "0xeb6f92";
-        bright.green = "0x31748f";
-        bright.yellow = "0xf6c177";
-        bright.blue = "0x9ccfd8";
-        bright.magenta = "0xc4a7e7";
-        bright.cyan = "0xebbcba";
-        bright.white = "0xe0def4";
-        hints = {
-          start.foreground = "#908caa";
-          start.background = "#1f1d2e";
-
-          end.foreground = "#6e6a86";
-          end.background = "#1f1d2e";
-        };
-      };
-
-      # font configuration
-      font.size = 16;
-      font.normal = {
-        family = "JetBrains Mono";
-        style = "Regular";
-      };
-
-      font.italic = {
-        family = "JetBrains Mono";
-        style = "Italic";
-      };
-
-      font.bold = {
-        family = "JetBrains Mono";
-        style = "Bold";
-      };
-
-      font.bold_italic = {
-        family = "JetBrains Mono";
-        style = "Bold Italic";
-      };
     };
   };
 
@@ -93,113 +25,10 @@
     };
   };
 
-  programs.zed-editor = {
-    enable = true;
-    extensions = [
-      # languages
-      "nix"
-      "toml"
-      "sql"
-      "vue"
-      "make"
-      "html"
-      "rust"
-      "terraform"
-      "dockerfile"
-      "docker-compose"
-      "emmet"
-
-      # misc
-      "git-firefly"
-      "wakatime"
-      "env"
-
-      # themes
-      "vitesse-theme-refined"
-      "material-icon-theme"
-    ];
-
-    extraPackages = with pkgs; [
-      clang-tools_18
-      nil
-    ];
-
-    userSettings = {
-      # Allows Zed to format all files
-      format_on_save = "on";
-
-      # Disables VIM mode. I hate VIM.
-      vim_mode = false;
-
-      # Sets tab size to 4 for all languages
-      tab_size = 4;
-
-      buffer_font_size = 17;
-      buffer_font_family = "JetBrains Mono";
-
-      current_line_highlight = "none";
-      cursor_blink = true;
-
-      ui_font_size = 16;
-      ui_font_family = "Inter";
-
-      theme = {
-        mode = "system";
-        light = "Vitesse Refined Light";
-        dark = "Vitesse Refined Dark";
-      };
-
-      terminal = {
-        font_family = "JetBrains Mono";
-        font_size = 17;
-      };
-
-      features = {
-        copilot = false;
-      };
-
-      telemetry = {
-        diagnostics = true;
-        metrics = false;
-      };
-
-      languages = {
-        Nix = {
-          language_servers = ["nil" "!nixd"];
-          format_on_save = "on";
-          tab_size = 2;
-        };
-      };
-
-      lsp = {
-        nil = {
-          settings = {
-            formatting = {
-              command = ["nix" "fmt" "--" "--"];
-            };
-
-            nix = {
-              binary = "${pkgs.nixVersions.stable}/bin/nix";
-              maxMemoryMB = 4120; # ~4.1GiB is used for `nix flake show --legacy` for me.
-              flake = {
-                autoArchive = true;
-                autoEvalInputs = true;
-              };
-            };
-          };
-        };
-      };
-    };
-  };
-
-  home.packages = with pkgs; [
-    mesonlsp
-  ];
-
   programs.vscode = {
-    enable = machine != "miki";
+    enable = true;
     package = pkgs.vscode-insiders.overrideAttrs (old: {
-      buildInputs = with pkgs; old.buildInputs ++ [krb5];
+      buildInputs = old.buildInputs ++ [pkgs.krb5];
     });
 
     profiles.default = {
@@ -208,7 +37,7 @@
         llvm-vs-code-extensions.vscode-clangd
         ms-vscode-remote.remote-containers
         jnoortheen.nix-ide
-        #rust-lang.rust-analyzer
+        rust-lang.rust-analyzer
         bradlc.vscode-tailwindcss
         dbaeumer.vscode-eslint
         esbenp.prettier-vscode
@@ -228,7 +57,6 @@
         ms-vscode.powershell
         catppuccin.catppuccin-vsc-icons
         bazelbuild.vscode-bazel
-        mesonbuild.mesonbuild
         ms-vscode.cmake-tools
         hashicorp.hcl
         github.vscode-github-actions
@@ -236,16 +64,18 @@
         vue.volar
         opentofu.vscode-opentofu
         antfu.theme-vitesse
+        ms-python.python
+        ms-azuretools.vscode-docker
+        ms-azuretools.vscode-containers
       ];
 
       userSettings = {
         ##                         LANGUAGE-SPECIFIC                       ##
         "[terraform-vars]"."editor.defaultFormatter" = "hashicorp.terraform";
-        "[opentofu-vars]"."editor.defaultFormatter" = "OpenTofu.vscode-opentofu";
+        "[opentofu-vars]"."editor.defaultFormatter" = "opentofu.vscode-opentofu";
         "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
-        "[opentofu]"."editor.defaultFormatter" = "OpenTofu.vscode-opentofu";
+        "[opentofu]"."editor.defaultFormatter" = "opentofu.vscode-opentofu";
         "[starlark]"."editor.defaultFormatter" = "BazelBuild.vscode-bazel";
-        "[meson]"."editor.defaultFormatter" = "mesonbuild.mesonbuild";
         "[toml]"."editor.defaultFormatter" = "tamasfe.even-better-toml";
         "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
         "[cpp]"."editor.defaultFormatter" = "xaver.clang-format";
@@ -389,6 +219,19 @@
 
         ## TERMINAL ##
         "terminal.integrated.fontSize" = 16;
+
+        ## DOCKER COMPOSE ##
+        "[dockercompose]" = {
+          "editor.insertSpaces" = true;
+          "editor.tabSize" = 2;
+          "editor.autoIndent" = "advanced";
+          "editor.defaultFormatter" = "redhat.vscode-yaml";
+          "editor.quickSuggestions" = {
+            "other" = true;
+            "comments" = false;
+            "strings" = true;
+          };
+        };
       };
     };
   };

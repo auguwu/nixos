@@ -60,8 +60,6 @@ in {
   };
 
   home.packages = [
-    pkgs.gcr
-
     (import
       ../../lib/scripts/rebuild-system/${
         if machine == "miki"
@@ -86,6 +84,7 @@ in {
       })
 
       telegram-desktop
+      slack
       firefox
       spotify
     ]));
@@ -95,7 +94,6 @@ in {
     cat = "bat -p";
     ls = "eza -l -S -F -a";
     dc = "docker compose";
-    tf = "terraform";
   };
 
   # allow home-manager to handle itself
@@ -141,11 +139,11 @@ in {
 
   programs.git = {
     enable = true;
-    package = pkgs.gitAndTools.gitFull;
-    userName = "Noel";
-    userEmail = "cutie@floofy.dev";
+    package = pkgs.gitFull;
     lfs.enable = true;
-    extraConfig = {
+    settings = {
+      user.email = "cutie@floofy.dev";
+      user.name = "Noel Towa";
       user.signingkey = "63182D5FE7A237C9";
       init.defaultBranch = "master";
       pull.rebase = true; # i am getting better at this :>
@@ -180,80 +178,5 @@ in {
   programs.bat = {
     enable = true;
     config.theme = "Nord";
-  };
-
-  # enable GNOME Keyright for secure secrets
-  services.gnome-keyring.enable = true;
-
-  dconf = {
-    enable = machine != "miki";
-    settings = {
-      "org/gnome/desktop/screensaver" = {
-        picture-uri =
-          if machine == "floofbox"
-          then "file://${../../wallpapers/furry.jpg}"
-          else "file://${../../wallpapers/zzz.png}";
-      };
-
-      "org/gnome/desktop/background" = {
-        picture-uri =
-          if machine == "floofbox"
-          then "file://${../../wallpapers/furry.jpg}"
-          else "file://${../../wallpapers/zzz.png}";
-      };
-
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-        cursor-theme = "Adwaita";
-        accent-color = "pink";
-        show-battery-percentage = machine == "kotoha";
-      };
-
-      "org/gnome/desktop/peripherals/mouse" = {
-        natural-scroll = machine == "kotoha";
-      };
-
-      "org/gnome/desktop/peripherals/touchpad" = {
-        two-finger-scrolling-enabled = machine == "kotoha";
-      };
-
-      "org/gnome/shell" = {
-        last-selected-power-profile = "performance";
-      };
-
-      "org/gnome/shell" = {
-        enabled-extensions = [
-          pkgs.gnomeExtensions.dash-to-dock.extensionUuid
-          pkgs.gnomeExtensions.appindicator.extensionUuid
-
-          "docker@stickman_0x00.com"
-          "status-icons@gnome-shell-extensions.gcampax.github.com"
-          "system-monitor@gnome-shell-extensions.gcampax.github.com"
-        ];
-
-        favorite-apps = [
-          "firefox.desktop"
-          "discord-canary.desktop"
-          "code-insiders.desktop"
-          "spotify.desktop"
-          "org.gnome.Nautilus.desktop"
-          "org.telegram.desktop.desktop"
-          "slack.desktop"
-          "com.mitchellh.ghostty.desktop"
-          "thunderbird.desktop"
-        ];
-      };
-
-      "org/gnome/shell/extensions/system-monitor" = {
-        show-download = false;
-        show-upload = false;
-      };
-
-      "org/gnome/settings-daemon/plugins/color" = {
-        night-light-schedule-automatic = false;
-        night-light-enabled = true;
-        night-light-temperature = 3500;
-      };
-    };
   };
 }

@@ -32,6 +32,13 @@
     fsType = "vfat";
   };
 
+  # Mount Windows so that it can probably be detected by os-prober (it didn't)
+  fileSystems."/media/Windows" = {
+    device = "/dev/disk/by-uuid/8CB87B78B87B601E";
+    fsType = "ntfs-3g";
+    options = ["rw" "uid=1000"];
+  };
+
   swapDevices = [];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
