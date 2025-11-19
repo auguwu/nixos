@@ -48,6 +48,7 @@
     tree
     file
     htop
+    duf
     dig
     zip
     git

@@ -20,7 +20,7 @@ in
 
     text = ''
       (cd /etc/nixos && git pull origin master) 2>/dev/null
-      (set -euo pipefail && sudo nixos-rebuild switch --flake /etc/nixos#${machine} \
+      (set -euo pipefail && sudo nixos-rebuild switch --flake /etc/nixos#${machine} --accept-flake-config \
         --show-trace \
         --log-format internal-json 2>&1 |& nom --json)
     '';

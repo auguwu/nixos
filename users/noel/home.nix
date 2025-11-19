@@ -60,14 +60,7 @@ in {
   };
 
   home.packages = [
-    (import
-      ../../lib/scripts/rebuild-system/${
-        if machine == "miki"
-        then "darwin"
-        else "nixos"
-      }.nix {
-        inherit machine pkgs;
-      })
+    (import ../../lib/scripts/rebuild-system/nixos.nix {inherit machine pkgs;})
   ];
 
   home.homeDirectory = homedir;
@@ -92,6 +85,7 @@ in {
   home.shellAliases = {
     grep = "rg";
     cat = "bat -p";
+    df = "duf -theme dark -only local";
     ls = "eza -l -S -F -a";
     dc = "docker compose";
   };
@@ -144,15 +138,13 @@ in {
     settings = {
       user.email = "cutie@floofy.dev";
       user.name = "Noel Towa";
-      user.signingkey = "63182D5FE7A237C9";
+      user.signingkey = "9122EB12C815DEA3";
       init.defaultBranch = "master";
-      pull.rebase = true; # i am getting better at this :>
-      safe.directory = "*"; # i don't care, even though i probably should
+      pull.rebase = true;
+      safe.directory = "*"; # i don't care
       push.autoSetupRemote = true;
       commit.gpgsign = true;
-      credential.helper = "store"; # temporary fix for now
-
-      includeIf."gitdir:/Workspaces/Noelware/Internal/".path = "/Workspaces/Noelware/.gitconfig";
+      credential.helper = "libsecret";
     };
   };
 

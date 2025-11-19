@@ -11,28 +11,21 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot = {
-    kernelModules = ["kvm-amd"];
-    extraModprobeConfig = "options kvm_amd nested=1";
-    initrd.availableKernelModules = [
-      "xhci_pci"
-      "ahci"
-      "usbhid"
-      "sd_mod"
-    ];
-  };
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-amd"];
+  boot.extraModprobeConfig = "options kvm_amd nested=1";
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/76708f0c-8b9b-4b7d-b9d1-408e5a1a3efb";
+    device = "/dev/disk/by-uuid/a8622090-44b2-4181-8dfa-bb6c5f226c31";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/CA94-7330";
+    device = "/dev/disk/by-uuid/4001-280A";
     fsType = "vfat";
   };
 
-  # Mount Windows so that it can probably be detected by os-prober (it didn't)
   fileSystems."/media/Windows" = {
     device = "/dev/disk/by-uuid/8CB87B78B87B601E";
     fsType = "ntfs-3g";
@@ -40,15 +33,6 @@
   };
 
   swapDevices = [];
-
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

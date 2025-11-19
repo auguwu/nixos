@@ -13,16 +13,34 @@
     ./hardware.nix
   ];
 
-  # use grub as our bootloader
-  boot.supportedFilesystems = ["ntfs"];
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
-    grub = {
-      efiSupport = true;
-      useOSProber = true;
-      devices = ["nodev"];
-      enable = true;
-      configurationLimit = 1;
+  boot = {
+    supportedFilesystems = ["ntfs"];
+    loader = {
+      efi.canTouchEfiVariables = true;
+      limine = {
+        secureBoot = {
+          enable = true;
+          sbctl = pkgs.sbctl;
+        };
+
+        # This will add a entry to Limine that lets me go into my Windows
+        # installation whenever I please.
+        extraConfig = ''
+          /Windows
+            protocol: efi
+            path: uuid(6af6f736-4c9a-4f6a-a624-0618824fca25):/EFI/Microsoft/Boot/bootmgfw.efi
+        '';
+
+        enable = true;
+        maxGenerations = 2; # only allow a single generation to be present plus a backup in case
+        style = {
+          wallpaperStyle = "centered";
+          interface.brandingColor = 5; # Magenta
+          wallpapers = [
+            ../../wallpapers/littlearrowdog.jpg
+          ];
+        };
+      };
     };
   };
 
@@ -63,10 +81,15 @@
   time.hardwareClockInLocalTime = true;
 
   # secrets!
-  sops = {
-    age.keyFile = "/home/noel/.config/sops/age/keys.txt";
-    defaultSopsFile = ../../secrets.yaml;
-  };
+  #  sops = {
+  #    age.keyFile = "/home/noel/.config/sops/age/keys.txt";
+  #    defaultSopsFile = ../../secrets.yaml;
+  #  };
+
+  # extra packages that only noel@floofbox should install
+  environment.systemPackages = [
+    pkgs.sbctl
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

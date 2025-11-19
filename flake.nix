@@ -21,8 +21,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     hardware.url = "github:NixOS/nixos-hardware";
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
+    #    sops-nix = {
+    #      url = "github:Mic92/sops-nix";
+    #      inputs.nixpkgs.follows = "nixpkgs";
+    #    };
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -55,11 +60,12 @@
   outputs = {
     nixpkgs,
     hardware,
-    sops-nix,
+    #   sops-nix,
     noelware,
     vscode-insiders,
     ume,
     nix-vscode-extensions,
+    lanzaboote,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -96,7 +102,9 @@
           hardware.nixosModules.common-cpu-amd
           hardware.nixosModules.common-gpu-amd
 
-          sops-nix.nixosModules.sops
+          lanzaboote.nixosModules.lanzaboote
+
+          #        sops-nix.nixosModules.sops
         ];
       };
 
@@ -105,7 +113,7 @@
         modules = [
           hardware.nixosModules.framework-13-7040-amd
 
-          sops-nix.nixosModules.sops
+          #          sops-nix.nixosModules.sops
         ];
       };
     };
