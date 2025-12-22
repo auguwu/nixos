@@ -99,7 +99,6 @@
     sops
 
     # KDE-related
-    kdePackages.discover
     kdePackages.kcalc
     kdePackages.kcharselect
     kdePackages.kclock

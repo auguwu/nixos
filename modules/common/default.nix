@@ -32,6 +32,7 @@
     # lsps
     alejandra
     tofu-ls
+    starpls
     nil
 
     # other utilities
@@ -73,6 +74,13 @@
 
     # Bazel
     bazel_8
+    bazel-buildtools
+
+    # CMake
+    cmake
+
+    # C++
+    llvmPackages_21.clang
 
     # Other utilties
     gemini-cli

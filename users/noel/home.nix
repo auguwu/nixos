@@ -12,46 +12,43 @@
 
   # based off
   # https://github.com/nix-community/home-manager/issues/3447#issuecomment-2213029759
-  buildAutoStartFiles = applications:
-    if machine == "miki"
-    then {}
-    else let
-      inherit (lib) map attrsets;
-    in
-      builtins.listToAttrs (map (pkg: {
-          name = ".config/autostart/${pkg.pname}.desktop";
-          value =
-            if pkg ? desktopItem
-            then {
-              # application has a `desktopItem` entry; we don't know
-              # if it was made with `makeDesktopEntry`, which has a `text`
-              # attribute of the content, so we'll assume that it's there.
-              text = pkg.desktopItem.text;
-            }
-            else {
-              # otherwise, we'll try to find a .desktop item in the source
-              # tree of the derivation of `pkg`.
-              source = with builtins; let
-                appsPath = "${pkg}/share/applications";
-                filterFiles = contents:
-                  attrsets.filterAttrs (
-                    _: ty:
-                      elem ty ["regular" "symlink"]
-                  )
-                  contents;
-              in (
-                if (pathExists "${appsPath}/${pkg.pname}.desktop")
-                then "${appsPath}/${pkg.pname}.desktop"
-                else
-                  (
-                    if pathExists appsPath
-                    then "${appsPath}/${head (attrNames (filterFiles (readDir appsPath)))}"
-                    else throw "unable to find `.desktop` entry for application [${pkg.pname}]"
-                  )
-              );
-            };
-        })
-        applications);
+  buildAutoStartFiles = applications: let
+    inherit (lib) map attrsets;
+  in
+    builtins.listToAttrs (map (pkg: {
+        name = ".config/autostart/${pkg.pname}.desktop";
+        value =
+          if pkg ? desktopItem
+          then {
+            # application has a `desktopItem` entry; we don't know
+            # if it was made with `makeDesktopEntry`, which has a `text`
+            # attribute of the content, so we'll assume that it's there.
+            text = pkg.desktopItem.text;
+          }
+          else {
+            # otherwise, we'll try to find a .desktop item in the source
+            # tree of the derivation of `pkg`.
+            source = with builtins; let
+              appsPath = "${pkg}/share/applications";
+              filterFiles = contents:
+                attrsets.filterAttrs (
+                  _: ty:
+                    elem ty ["regular" "symlink"]
+                )
+                contents;
+            in (
+              if (pathExists "${appsPath}/${pkg.pname}.desktop")
+              then "${appsPath}/${pkg.pname}.desktop"
+              else
+                (
+                  if pathExists appsPath
+                  then "${appsPath}/${head (attrNames (filterFiles (readDir appsPath)))}"
+                  else throw "unable to find `.desktop` entry for application [${pkg.pname}]"
+                )
+            );
+          };
+      })
+      applications);
 in {
   imports = lib.flatten (lib.optional graphical ../../modules/common/graphical/home-manager.nix);
   home.sessionVariables = {
@@ -68,6 +65,7 @@ in {
   home.username = "noel";
   home.file =
     {
+      ".wallpapers/littlearrowdog.jpg".source = ../../wallpapers/littlearrowdog.jpg;
       ".wallpapers/furry.jpg".source = ../../wallpapers/furry.jpg;
       ".icons/noel.png".source = ../../icons/noel.png;
     }
