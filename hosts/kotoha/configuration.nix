@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 {pkgs, ...}: {
   imports = [
+    ../../modules/virtualisation/docker.nix
     ../../modules/common/graphical
 
     ../../modules/common/nixos.nix
@@ -11,13 +12,20 @@
     ./hardware.nix
   ];
 
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
-    grub = {
-      efiSupport = true;
-      device = "nodev"; # required for EFI usage
-      enable = true;
-      configurationLimit = 1;
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      limine = {
+        enable = true;
+        maxGenerations = 2; # only allow a single generation to be present plus a backup in case
+        style = {
+          wallpaperStyle = "centered";
+          interface.brandingColor = 5; # Magenta
+          wallpapers = [
+            ../../wallpapers/littlearrowdog.jpg
+          ];
+        };
+      };
     };
   };
 
@@ -33,17 +41,7 @@
 
   # Enable fwupd service since BIOS updates are through
   # LVFS.
-  services.fwupd = {
-    enable = true;
-    package =
-      (import (builtins.fetchTarball {
-          url = "https://github.com/NixOS/nixpkgs/archive/bb2009ca185d97813e75736c2b8d1d8bb81bde05.tar.gz";
-          sha256 = "sha256:003qcrsq5g5lggfrpq31gcvj82lb065xvr7bpfa8ddsw8x4dnysk";
-        }) {
-          inherit (pkgs) system;
-        })
-      .fwupd;
-  };
+  services.fwupd.enable = true;
 
   # Enable this for fingerprint scanner
   services.fprintd.enable = true;

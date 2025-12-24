@@ -11,8 +11,8 @@ in {
     extraGroups =
       mkGroups [
         [config.networking.networkmanager.enable "networkmanager"]
-        [config.virtualisation.docker.enable "docker"]
         [config.virtualisation.libvirtd.enable "libvirtd"]
+        [config.virtualisation.docker.enable "docker"]
         [config.hardware.bluetooth.enable "bluetooth"]
       ]
       ++ ["wheel"];

@@ -67,7 +67,6 @@
     cargo-expand
     cargo-cache
     cargo-deny
-    rustup
 
     # languages we might need
     nodejs_latest
