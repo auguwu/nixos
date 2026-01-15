@@ -1,8 +1,0 @@
-{
-    "editor.tabSize": 4,
-    "editor.formatOnSave": true,
-    "[nix]": {
-        "editor.tabSize": 2,
-        "editor.defaultFormatter": "jnoortheen.nix-ide"
-    }
-}

@@ -1,92 +1,53 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
+# your system.  Help is avaliable in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 {pkgs, ...}: {
   imports = [
-    ../../modules/virtualisation/libvirt.nix
-    ../../modules/virtualisation/docker.nix
-    ../../modules/common/graphical
+    ../../modules/bootloader/limine.nix
 
-    ../../modules/common/nixos.nix
-    ../../modules/common
+    ../../modules/dev/software.nix
+
+    ../../modules/gaming/steam.nix
+
+    ../../modules/graphical/display/kde.nix
+
+    ../../modules/linux/networking.nix
+    ../../modules/linux/graphics.nix
+    ../../modules/linux/kernel.nix
+    ../../modules/linux/sound.nix
+
+    ../../modules/nix/nixos.nix
+
+    ../../modules/virtualization/docker.nix
+
+    ../../modules/software.nix
+    ../../modules/locale.nix
+    ../../modules/fonts.nix
+    ../../modules/shell.nix
+
+    ../../services/openssh.nix
 
     ./hardware.nix
   ];
 
-  boot = {
-    supportedFilesystems = ["ntfs"];
-    loader = {
-      efi.canTouchEfiVariables = true;
-      limine = {
-        secureBoot = {
-          enable = true;
-          sbctl = pkgs.sbctl;
-        };
+  boot.loader.limine.extraConfig = ''
+    /Windows
+      protocol: efi
+      path: uuid(6af6f736-4c9a-4f6a-a624-0618824fca25):/EFI/Microsoft/Boot/bootmgfw.efi
+  '';
 
-        # This will add a entry to Limine that lets me go into my Windows
-        # installation whenever I please.
-        extraConfig = ''
-          /Windows
-            protocol: efi
-            path: uuid(6af6f736-4c9a-4f6a-a624-0618824fca25):/EFI/Microsoft/Boot/bootmgfw.efi
-        '';
-
-        enable = true;
-        maxGenerations = 2; # only allow a single generation to be present plus a backup in case
-        style = {
-          wallpaperStyle = "centered";
-          interface.brandingColor = 5; # Magenta
-          wallpapers = [
-            ../../wallpapers/littlearrowdog.jpg
-          ];
-        };
-      };
-    };
-  };
-
-  # use latest Linux kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  systemd.tmpfiles.rules = ["L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"];
-
-  # networking stuff
-  networking = {
-    hostName = "floofbox";
-    networkmanager.enable = true;
-    nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4"];
-  };
-
-  # external services only allowed on `floofbox`
-  services.dnsmasq.enable = true;
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      TcpKeepAlive = true;
-      KbdInteractiveAuthentication = false;
-    };
-  };
-
-  # graphics configuration
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [mesa];
-  };
-
-  # make sure that Discord voice works and this is I know how it would work
   programs.noisetorch.enable = true;
   services.xserver.videoDrivers = ["amdgpu"];
 
   # https://nixos.wiki/wiki/Dual_Booting_NixOS_and_Windows#System_time
   time.hardwareClockInLocalTime = true;
 
-  # secrets!
-  #  sops = {
-  #    age.keyFile = "/home/noel/.config/sops/age/keys.txt";
-  #    defaultSopsFile = ../../secrets.yaml;
-  #  };
+  # # https://nixos.wiki/wiki/Steam#Changing_the_driver_on_AMD_GPUs
+  # hardware.graphics.amdgpu.amdvlk = {
+  #   enable = true;
+  #   support32Bit.enable = true;
+  # };
 
-  # extra packages that only noel@floofbox should install
   environment.systemPackages = [
     pkgs.sbctl
   ];

@@ -1,14 +1,9 @@
 {
-  description = "Noel's dotfiles configuration for my devices that run NixOS";
-
-  # Include the binary caches for my own projects and Noelware's as well.
+  description = "noel@{floofbox,kotoha,yuzu,hokkaido}: nix flake configuration for my machines";
   nixConfig = {
     extra-substituters = [
-      # TODO: switch to https://nix.floofy.dev
-      "https://noel.cachix.org"
-
-      # TODO: switch to https://nix.noelware.org
-      "https://noelware.cachix.org"
+      "https://noel.cachix.org" # https://nix.noel.pink
+      "https://noelware.cachix.org" # https://nix.noelware.org
     ];
 
     extra-trusted-public-keys = [
@@ -20,20 +15,34 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     hardware.url = "github:NixOS/nixos-hardware";
-
-    #    sops-nix = {
-    #      url = "github:Mic92/sops-nix";
-    #      inputs.nixpkgs.follows = "nixpkgs";
-    #    };
-
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.3";
+    darwin = {
+      url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    draconis = {
+      url = "github:skulldogged/draconisplusplus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    draconis-plugins = {
+      url = "github:skulldogged/draconisplusplus-plugins";
+      flake = false;
     };
 
     noelware = {
@@ -61,64 +70,39 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     hardware,
-    #   sops-nix,
     noelware,
     vscode-insiders,
-    ume,
     nix-vscode-extensions,
     lanzaboote,
+    darwin,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
-    inherit (lib) genAttrs;
 
-    eachSystem = genAttrs ["x86_64-linux" "aarch64-linux"];
     overlays = [
       nix-vscode-extensions.overlays.default
       vscode-insiders.overlays.default
+      darwin.overlays.default
+      # ume.overlays.default
 
       (import noelware)
+      (import ./pkgs)
     ];
 
-    mkSystem = import ./lib/mkSystem.nix {
-      inherit nixpkgs inputs overlays;
-    };
+    eachSystem = f:
+      lib.genAttrs ["x86_64-linux" "aarch64-darwin"] (system:
+        f (import nixpkgs {
+          inherit system overlays;
 
-    nixpkgsFor = system:
-      import nixpkgs {
-        inherit system;
-
-        overlays = [
-          (final: prev: {
-            ume = ume.packages.${system}.ume;
-          })
-        ];
-      };
+          config.allowUnfree = true;
+        }));
   in {
-    formatter = eachSystem (system: (nixpkgsFor system).alejandra);
-    nixosConfigurations = {
-      floofbox = mkSystem "floofbox" {
-        system = "x86_64-linux";
-        modules = [
-          hardware.nixosModules.common-cpu-amd
-          hardware.nixosModules.common-gpu-amd
+    inherit (import ./hosts {inherit nixpkgs inputs overlays;}) nixosConfigurations darwinConfigurations;
 
-          lanzaboote.nixosModules.lanzaboote
-
-          #        sops-nix.nixosModules.sops
-        ];
-      };
-
-      kotoha = mkSystem "kotoha" {
-        system = "x86_64-linux";
-        modules = [
-          hardware.nixosModules.framework-13-7040-amd
-
-          #          sops-nix.nixosModules.sops
-        ];
-      };
-    };
+    formatter = eachSystem (pkgs: pkgs.alejandra);
+    #packages = eachSystem (pkgs: import ./pkgs {} pkgs);
   };
 }

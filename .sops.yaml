@@ -1,7 +1,0 @@
-keys:
-  - &floofbox age1szh5fz224wmllf23ddxwwtu9jtyt4eqznrxq3npjwhj9dnujr43speux8k
-creation_rules:
-  - path_regex: secrets/[^/]+\.(ya?ml)$
-    key_groups:
-      - age:
-        - *floofbox

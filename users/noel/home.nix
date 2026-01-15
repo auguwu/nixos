@@ -1,8 +1,11 @@
 {
   pkgs,
   lib,
-  graphical ? false,
   machine,
+  graphical ? false,
+  withVSCode ? false,
+  withIDEs ? false,
+  gaming ? false,
   ...
 }: let
   homedir =
@@ -10,9 +13,8 @@
     then "/Users/noel"
     else "/home/noel";
 
-  # based off
-  # https://github.com/nix-community/home-manager/issues/3447#issuecomment-2213029759
-  buildAutoStartFiles = applications: let
+  # from https://github.com/nix-community/home-manager/issues/3447#issuecomment-2213029759
+  buildAutoStartFiles = apps: let
     inherit (lib) map attrsets;
   in
     builtins.listToAttrs (map (pkg: {
@@ -26,147 +28,90 @@
             text = pkg.desktopItem.text;
           }
           else {
-            # otherwise, we'll try to find a .desktop item in the source
-            # tree of the derivation of `pkg`.
-            source = with builtins; let
+            source = let
+              inherit (lib) head;
+
               appsPath = "${pkg}/share/applications";
-              filterFiles = contents:
-                attrsets.filterAttrs (
-                  _: ty:
-                    elem ty ["regular" "symlink"]
-                )
-                contents;
+              filterFiles = contents: attrsets.filterAttrs (_: ty: builtins.elem ty ["regular" "symlink"]) contents;
             in (
-              if (pathExists "${appsPath}/${pkg.pname}.desktop")
+              if (builtins.pathExists "${appsPath}/${pkg.pname}.desktop")
               then "${appsPath}/${pkg.pname}.desktop"
               else
                 (
-                  if pathExists appsPath
-                  then "${appsPath}/${head (attrNames (filterFiles (readDir appsPath)))}"
-                  else throw "unable to find `.desktop` entry for application [${pkg.pname}]"
+                  if builtins.pathExists appsPath
+                  then "${appsPath}/${head (builtins.attrNames (filterFiles (builtins.readDir appsPath)))}"
+                  else throw "[${pkg.pname}]: unable to find `.desktop` entry"
                 )
             );
           };
       })
-      applications);
+      apps);
 in {
-  imports = lib.flatten (lib.optional graphical ../../modules/common/graphical/home-manager.nix);
-  home.sessionVariables = {
-    EDITOR = "nano";
-    VISUAL = "code-insiders";
+  imports =
+    [
+      ./applications/draconis.nix
+      ./applications/bat.nix
+      ./applications/eza.nix
+      ./applications/git.nix
+      ./applications/zsh.nix
+
+      ../../modules/graphical/hyfetch.nix
+    ]
+    ++ lib.optionals graphical [
+      ../../modules/graphical/programs.nix
+    ]
+    ++ lib.optionals withVSCode [
+      ../../modules/graphical/vscode.nix
+    ]
+    ++ lib.optionals withIDEs [
+      ../../modules/graphical/jetbrains.nix
+      ../../modules/graphical/ghostty.nix
+
+      ./applications/gh.nix
+    ]
+    ++ lib.optionals gaming [
+      ../../modules/gaming/minecraft.nix
+    ];
+
+  home = {
+    packages = [
+      (pkgs.callPackage ../../pkgs/rebuild-system/nixos.nix {inherit machine;})
+    ];
+
+    sessionVariables = {
+      EDITOR = "nano";
+      VISUAL = "code-insiders";
+    };
+
+    shellAliases = {
+      grep = "rg";
+      cat = "bat -p";
+      df = "duf -theme dark -only local";
+      ls = "eza -l -S -F -a";
+      dc = "docker compose";
+    };
+
+    homeDirectory = homedir;
+    stateVersion = "23.05";
+    username = "noel";
+    file =
+      lib.mkIf graphical {
+        ".wallpapers/littlearrowdog".source = ../../wallpapers/littlearrowdog.jpg;
+      }
+      // (buildAutoStartFiles (with pkgs; [
+        (discord-canary.override {
+          withVencord = true;
+        })
+        telegram-desktop
+        slack
+        firefox
+        spotify
+      ]));
   };
 
-  home.packages = [
-    (import ../../lib/scripts/rebuild-system/nixos.nix {inherit machine pkgs;})
-  ];
-
-  home.homeDirectory = homedir;
-  home.stateVersion = "23.05";
-  home.username = "noel";
-  home.file =
-    {
-      ".wallpapers/littlearrowdog.jpg".source = ../../wallpapers/littlearrowdog.jpg;
-      ".wallpapers/furry.jpg".source = ../../wallpapers/furry.jpg;
-      ".icons/noel.png".source = ../../icons/noel.png;
-    }
-    // (buildAutoStartFiles (with pkgs; [
-      (discord-canary.override {
-        withVencord = true;
-      })
-
-      telegram-desktop
-      slack
-      firefox
-      spotify
-    ]));
-
-  home.shellAliases = {
-    grep = "rg";
-    cat = "bat -p";
-    df = "duf -theme dark -only local";
-    ls = "eza -l -S -F -a";
-    dc = "docker compose";
-  };
-
-  # allow home-manager to handle itself
+  # Allow home-manager to manage itself
   programs.home-manager.enable = true;
 
-  # gpg stuff
+  # le gpg
   programs.gpg.enable = true;
-
-  # oh my zsh stuff
-  programs.zsh = {
-    enable = true;
-    oh-my-zsh = {
-      plugins = [
-        "terraform"
-        "redis-cli"
-        "postgres"
-        "minikube"
-        "kubectl"
-        "gradle"
-        "bazel"
-        "docker"
-        "helm"
-        "rust"
-        "git"
-        "gh"
-      ];
-
-      enable = true;
-      theme = "af-magic";
-      extraConfig = ''
-        zstyle ':omz:update' mode reminder
-        zstyle ':omz:update' frequency 30
-
-        # [docker] enable option stacking
-        zstyle ':completion:*:*:docker-*:*' option-stacking yes
-        zstyle ':completion:*:*:docker:*' option-stacking yes
-
-        # add direnv hook
-        eval "$(direnv hook zsh)"
-      '';
-    };
-  };
-
-  programs.git = {
-    enable = true;
-    package = pkgs.gitFull;
-    lfs.enable = true;
-    settings = {
-      user.email = "cutie@floofy.dev";
-      user.name = "Noel Towa";
-      user.signingkey = "9122EB12C815DEA3";
-      init.defaultBranch = "master";
-      pull.rebase = true;
-      safe.directory = "*"; # i don't care
-      push.autoSetupRemote = true;
-      commit.gpgsign = true;
-      credential.helper = "libsecret";
-    };
-  };
-
-  programs.gh = {
-    enable = true;
-    settings = {
-      # workaround for https://github.com/nix-community/home-manager/issues/4744
-      version = 1;
-      git_protocol = "ssh";
-      editor = "${pkgs.nano}/bin/nano"; # use `nano` for the editor
-    };
-
-    extensions = with pkgs; [
-      gh-actions-cache
-    ];
-  };
-
-  programs.eza = {
-    enable = true;
-    git = true;
-  };
-
-  programs.bat = {
-    enable = true;
-    config.theme = "Nord";
-  };
 }
