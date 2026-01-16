@@ -4,32 +4,7 @@
   machine,
   ...
 }: let
-  helm = pkgs.wrapHelm pkgs.kubernetes-helm {
-    plugins = [];
-  };
-
-  baseSettingsContent =
-    builtins.replaceStrings [
-      "@clang-tools@"
-      "@powershell@"
-      "@tofu-ls@"
-      "@tofu@"
-      "@helm@"
-      "@nil@"
-      "@nix@"
-      "@gn@"
-    ] [
-      "${pkgs.clang-tools}"
-      "${pkgs.powershell}"
-      "${pkgs.tofu-ls}"
-      "${pkgs.opentofu}"
-      "${helm}"
-      "${pkgs.nil}"
-      "${pkgs.nixVersions.stable}"
-      "${pkgs.gn}"
-    ] (builtins.readFile ./vscode/userSettings.json);
-
-  baseSettings = builtins.fromJSON (builtins.unsafeDiscardStringContext baseSettingsContent);
+  baseSettings = builtins.fromJSON (builtins.readFile ./vscode/userSettings.json);
   machineSettings =
     if builtins.pathExists ./vscode/userSettings.${machine}.json
     then builtins.fromJSON (builtins.readFile ./vscode/userSettings.${machine}.json)

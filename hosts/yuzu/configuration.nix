@@ -8,8 +8,9 @@
 
     ../../modules/nix/darwin.nix
 
-    ../../modules/locale.nix
     ../../modules/software.nix
+    ../../modules/locale.nix
+    ../../modules/fonts.nix
     ../../modules/shell.nix
   ];
 
