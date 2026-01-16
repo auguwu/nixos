@@ -6,6 +6,7 @@ _: {
     ../../modules/bootloader/limine.nix
 
     ../../modules/dev/software.nix
+    ../../modules/dev/ld.nix
 
     ../../modules/graphical/display/kde.nix
 

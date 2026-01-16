@@ -6,6 +6,7 @@
     ../../modules/bootloader/limine.nix
 
     ../../modules/dev/software.nix
+    ../../modules/dev/ld.nix
 
     ../../modules/gaming/steam.nix
 
@@ -15,6 +16,7 @@
     ../../modules/linux/graphics.nix
     ../../modules/linux/kernel.nix
     ../../modules/linux/sound.nix
+    ../../modules/linux/shell.nix
 
     ../../modules/nix/nixos.nix
 
@@ -31,11 +33,18 @@
     ./hardware.nix
   ];
 
-  boot.loader.limine.extraConfig = ''
-    /Windows
-      protocol: efi
-      path: uuid(6af6f736-4c9a-4f6a-a624-0618824fca25):/EFI/Microsoft/Boot/bootmgfw.efi
-  '';
+  boot.loader.limine = {
+    secureBoot = {
+      enable = true;
+      sbctl = pkgs.sbctl;
+    };
+
+    extraConfig = ''
+      /Windows
+        protocol: efi
+        path: uuid(6af6f736-4c9a-4f6a-a624-0618824fca25):/EFI/Microsoft/Boot/bootmgfw.efi
+    '';
+  };
 
   programs.noisetorch.enable = true;
   services.xserver.videoDrivers = ["amdgpu"];
