@@ -61,7 +61,7 @@
         "editor.tabSize": 2
     },
     "[gn]": {
-        "editor.defaultFormatter": "google.gn"
+        "editor.defaultFormatter": "Google.gn"
     },
     "[c]": {
         "editor.defaultFormatter": "xaver.clang-format"
@@ -155,6 +155,8 @@
     "powershell.powerShellAdditionalExePaths": {
         "nixpkgs": "@powershell@/bin/pwsh"
     },
+
+    "gn.binaryPath": "@gn@/bin/gn",
 
     "telemetry.telemetryLevel": "off",
     "update.mode": "none",

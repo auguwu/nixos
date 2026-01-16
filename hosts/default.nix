@@ -55,7 +55,7 @@
 
     darwin = [
       {
-        host = "yuzu";
+        name = "yuzu";
         system = "aarch64-darwin";
       }
     ];
@@ -91,6 +91,10 @@ in {
 
       value = mkDarwinSystem name {
         inherit system modules;
+
+        withIDEs = true;
+        withVSCode = true;
+        graphical = true;
       };
     })
     machines.darwin);

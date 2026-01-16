@@ -22,6 +22,7 @@ _: {
     ../../modules/locale.nix
     ../../modules/fonts.nix
     ../../modules/shell.nix
+    ../../modules/i18n.nix
 
     ../../services/openssh.nix
 

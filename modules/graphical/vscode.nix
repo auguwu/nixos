@@ -4,6 +4,10 @@
   machine,
   ...
 }: let
+  helm = pkgs.wrapHelm pkgs.kubernetes-helm {
+    plugins = [];
+  };
+
   baseSettingsContent =
     builtins.replaceStrings [
       "@clang-tools@"
@@ -13,14 +17,16 @@
       "@helm@"
       "@nil@"
       "@nix@"
+      "@gn@"
     ] [
       "${pkgs.clang-tools}"
       "${pkgs.powershell}"
       "${pkgs.tofu-ls}"
       "${pkgs.opentofu}"
-      "${pkgs.helm}"
+      "${helm}"
       "${pkgs.nil}"
       "${pkgs.nixVersions.stable}"
+      "${pkgs.gn}"
     ] (builtins.readFile ./vscode/userSettings.json);
 
   baseSettings = builtins.fromJSON (builtins.unsafeDiscardStringContext baseSettingsContent);
@@ -66,7 +72,7 @@
     ms-azuretools.vscode-docker
     ms-azuretools.vscode-containers
 
-    # (pkgs.callPackage ../../pkgs/vscode/extensions/google.gn {})
+    (pkgs.callPackage ../../pkgs/vscode/extensions/google.gn {})
   ];
 in {
   programs.vscode = {

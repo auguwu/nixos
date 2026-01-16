@@ -75,7 +75,12 @@ in {
 
   home = {
     packages = [
-      (pkgs.callPackage ../../pkgs/rebuild-system/nixos.nix {inherit machine;})
+      (pkgs.callPackage
+        ../../pkgs/rebuild-system/${
+          if machine == "yuzu"
+          then "darwin"
+          else "nixos"
+        }.nix {inherit machine;})
     ];
 
     sessionVariables = {
@@ -93,8 +98,8 @@ in {
 
     homeDirectory = homedir;
     stateVersion = "23.05";
-    username = "noel";
-    file = lib.mkIf graphical (buildAutoStartFiles (with pkgs; [
+    username = lib.mkForce "noel";
+    file = lib.mkIf (graphical && machine != "yuzu") (buildAutoStartFiles (with pkgs; [
         (discord-canary.override {
           withVencord = true;
         })
