@@ -9,6 +9,7 @@
     # seoul
 
     telegram-desktop
+    firefox
     spotify
     slack
   ];

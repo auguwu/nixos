@@ -94,19 +94,18 @@ in {
     homeDirectory = homedir;
     stateVersion = "23.05";
     username = "noel";
-    file =
-      lib.mkIf graphical {
-        ".wallpapers/littlearrowdog".source = ../../wallpapers/littlearrowdog.jpg;
-      }
-      // (buildAutoStartFiles (with pkgs; [
+    file = lib.mkIf graphical (buildAutoStartFiles (with pkgs; [
         (discord-canary.override {
           withVencord = true;
         })
+
         telegram-desktop
-        slack
-        firefox
         spotify
-      ]));
+        firefox
+      ])
+      // {
+        ".wallpapers/littlearrowdog".source = ../../wallpapers/littlearrowdog.jpg;
+      });
   };
 
   # Allow home-manager to manage itself
