@@ -13,6 +13,7 @@ _: {
     ../../modules/linux/graphics.nix
     ../../modules/linux/kernel.nix
     ../../modules/linux/sound.nix
+    ../../modules/linux/shell.nix
 
     ../../modules/nix/nixos.nix
 
