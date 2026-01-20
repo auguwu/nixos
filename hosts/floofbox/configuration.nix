@@ -58,8 +58,9 @@
   #   support32Bit.enable = true;
   # };
 
-  environment.systemPackages = [
-    pkgs.sbctl
+  environment.systemPackages = with pkgs; [
+    sbctl
+    qemu
   ];
 
   # This value determines the NixOS release from which the default

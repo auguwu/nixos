@@ -30,7 +30,7 @@ in {
 
       # Mac Mini (noel@yuzu)
 
-      # noel@hokkaido
+      # NAS Server (noel@hokkaido)
     ];
   };
 }

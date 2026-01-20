@@ -104,5 +104,8 @@
 
     formatter = eachSystem (pkgs: pkgs.alejandra);
     packages = eachSystem (pkgs: import ./pkgs {} pkgs);
+
+    # This will allow to build `noel@hokkaido` as a virtual-machine for testing
+    vms.hokkaido-test = self.nixosConfigurations.hokkaido.config.system.build.vm;
   };
 }
