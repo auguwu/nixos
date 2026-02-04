@@ -4,7 +4,7 @@
   overlays,
 }: let
   inherit (nixpkgs.lib) listToAttrs;
-  inherit (inputs) hardware lanzaboote sops-nix;
+  inherit (inputs) hardware lanzaboote sops-nix nix-minecraft;
 
   mkNixSystem = import ../lib/mkSystem.nixos.nix {
     inherit nixpkgs inputs overlays;
@@ -29,6 +29,8 @@
 
           lanzaboote.nixosModules.lanzaboote
           sops-nix.nixosModules.sops
+
+          nix-minecraft.nixosModules.minecraft-servers
         ];
       }
 
@@ -50,6 +52,11 @@
         name = "hokkaido";
         system = "x86_64-linux";
         graphical = false;
+
+        modules = [
+          nix-minecraft.nixosModules.minecraft-servers
+          sops-nix.nixosModules.sops
+        ];
       }
     ];
 

@@ -46,6 +46,8 @@
     ms-python.python
     ms-azuretools.vscode-docker
     ms-azuretools.vscode-containers
+    github.copilot
+    github.copilot-chat
 
     (pkgs.callPackage ../../pkgs/vscode/extensions/google.gn {})
   ];

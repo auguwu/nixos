@@ -71,6 +71,7 @@ in {
     ]
     ++ lib.optionals gaming [
       ../../modules/gaming/minecraft.nix
+      ../../modules/gaming/heroic.nix
     ];
 
   home = {

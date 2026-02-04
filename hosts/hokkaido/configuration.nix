@@ -1,9 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is avaliable in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-_: {
+{lib, ...}: {
   imports = [
     ../../modules/bootloader/limine.nix
+
+    ../../modules/hokkaido/minecraft-server.nix
+    ../../modules/hokkaido/hashicorp-vault.nix
 
     ../../modules/linux/networking.nix
     ../../modules/linux/kernel.nix
@@ -40,6 +43,10 @@ _: {
     };
 
     users.users.noel.initialPassword = "noel";
+    services.vault = {
+      dev = true;
+      storageBackend = lib.mkForce "inmem";
+    };
   };
 
   # This value determines the NixOS release from which the default

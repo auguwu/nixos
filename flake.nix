@@ -67,6 +67,11 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -78,6 +83,7 @@
     nix-vscode-extensions,
     lanzaboote,
     darwin,
+    nix-minecraft,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -86,6 +92,7 @@
       nix-vscode-extensions.overlays.default
       vscode-insiders.overlays.default
       darwin.overlays.default
+      nix-minecraft.overlay
       # ume.overlays.default
 
       (import noelware)

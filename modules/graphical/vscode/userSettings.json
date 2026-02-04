@@ -101,6 +101,7 @@
     "window.titleBarStyle": "custom",
 
     "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.stickyScroll.enabled": false,
     "terminal.integrated.tabs.enabled": true,
     "terminal.integrated.fontSize": 16,
 
@@ -178,5 +179,9 @@
         "https://www.schemastore.org/": true,
         "https://json-schema.org/": true,
         "https://docs.renovatebot.com/": true
+    },
+
+    "github.copilot.enable": {
+        "*": true
     }
 }

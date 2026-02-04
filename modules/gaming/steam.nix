@@ -1,4 +1,4 @@
-_: {
+{pkgs, ...}: {
   programs.steam = {
     enable = true;
 
@@ -10,5 +10,10 @@ _: {
 
     # Open ports in the firewall for Steam Local Network Game Transfers
     localNetworkGameTransfers.openFirewall = true;
+
+    # gamescope owo
+    gamescopeSession.enable = true;
   };
+
+  environment.systemPackages = [pkgs.mangohud];
 }

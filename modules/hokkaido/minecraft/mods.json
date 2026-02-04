@@ -1,0 +1,38 @@
+[
+    {
+        "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/L34yYPTD/fabric-api-0.141.2%2B1.21.11.jar",
+        "hash": "sha256-bB0MT90tgrVgcxiOTK0ogsgODtkifKNzRppCDRz2qXQ="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/AANobbMI/versions/3PnHeviJ/sodium-fabric-0.8.3%2Bmc1.21.11.jar",
+        "hash": "sha256-SHMhXKD54GrrAVSqLQBesqs+sxa3QgqzXcberBDJBvM="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/ZQx4ktUs/iris-fabric-1.10.5%2Bmc1.21.11.jar",
+        "hash": "sha256-YW1kolIqfIZINRdf2SnGdbjQCn+jfIzDxgH2A0uQoJ4="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/ImVKd3Zp/xaerominimap-fabric-1.21.11-25.3.5.jar",
+        "hash": "sha256-dli2Am+l3yw9rP3NKVHhVsdfvFrOqEbgY5FHuPQja1I="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/xm69SB7D/skinlayers3d-fabric-1.10.1-mc1.21.11.jar",
+        "hash": "sha256-3gt+VLpjAUUC9Tyvs4j5QS49qbm3URy6nu4FT7LzSe4="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/1OVXKX2W/voicechat-fabric-1.21.11-2.6.11.jar",
+        "hash": "sha256-G1/hX+4GVerQMnYrlaNdB8u+Df0hwl7gtSR6ydG5NTs="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/Wb5oqrBJ/versions/iINH3B1Y/chat_heads-1.2.0-fabric-1.21.11.jar",
+        "hash": "sha256-EYdbsQP7uQKMzQjZS8wXcGdJ0ApvE+WW7ZcUGJDCL3I="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/uRHq6kbO/versions/ylsFkqBg/modflared-1.6.0%2Brelease.129.jar",
+        "hash": "sha256-U4mkyJ3JGtHtq/+WyS2YzshaX8Cm6BIIhfBM/T83GUM="
+    },
+    {
+        "url": "https://cdn.modrinth.com/data/7OgRKPcG/versions/Sln8I7nE/ketkets-furnicraft-7.1.jar",
+        "hash": "sha256-i+gS9OtvYG8V61dRyPQQxeURPDLy2ulfR6YYNkc3g84="
+    }
+]

@@ -12,6 +12,9 @@
 
     ../../modules/graphical/display/kde.nix
 
+    ../../modules/hokkaido/minecraft-server.nix
+
+    ../../modules/linux/cloudflared.nix
     ../../modules/linux/networking.nix
     ../../modules/linux/graphics.nix
     ../../modules/linux/kernel.nix
@@ -62,6 +65,8 @@
     sbctl
     qemu
   ];
+
+  services.flatpak.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
