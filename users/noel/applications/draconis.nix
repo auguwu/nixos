@@ -5,7 +5,7 @@
   ...
 }: {
   programs.draconisplusplus = {
-    enable = true;
+    enable = machine != "yuzu";
     configFormat = "hpp";
     username = "Noel";
     staticPlugins = ["weather" "now_playing"];
