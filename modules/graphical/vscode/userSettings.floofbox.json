@@ -1,4 +1,5 @@
 {
     "$schema": "vscode://schemas/settings/user",
-    "window.zoomLevel": 0.78
+    "window.zoomLevel": 0.78,
+    "extensions.verifySignature": false
 }
