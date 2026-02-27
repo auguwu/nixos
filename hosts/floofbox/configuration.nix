@@ -55,11 +55,11 @@
   # https://nixos.wiki/wiki/Dual_Booting_NixOS_and_Windows#System_time
   time.hardwareClockInLocalTime = true;
 
-  # # https://nixos.wiki/wiki/Steam#Changing_the_driver_on_AMD_GPUs
-  # hardware.graphics.amdgpu.amdvlk = {
-  #   enable = true;
-  #   support32Bit.enable = true;
-  # };
+  # Fix uv python ssl.SSLCertVerificationError
+  environment.etc.certfile = {
+    source = "/etc/ssl/certs/ca-bundle.crt";
+    target = "ssl/cert.pem";
+  };
 
   environment.systemPackages = with pkgs; [
     sbctl

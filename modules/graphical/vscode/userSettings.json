@@ -127,6 +127,9 @@
     "prettier.vueIndentScriptAndStyle": true,
     "prettier.requireConfig": true,
 
+    "bazel.lsp.command": "starpls",
+    "bazel.lsp.args": ["server", "--experimental_infer_ctx_attributes", "--experimental_enable_label_completions"],
+
     "nix.enableLanguageServer": true,
     "nix.serverPath": "nil",
     "nix.serverSettings": {
@@ -182,6 +185,6 @@
     },
 
     "github.copilot.enable": {
-        "*": true
+        "*": false
     }
 }

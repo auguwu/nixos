@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------------------------
+# ./hack/runHokkaidoVM :: This will spawn a virtual machine that provisions the `hokkaido`
+# system. This is useful for testing features before landing in production.
+# ----------------------------------------------------------------------------------------

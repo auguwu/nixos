@@ -21,6 +21,7 @@ in {
         ActuallyPanda = "9fe6e426-8dca-42ef-826d-abfd51330041";
         Baygull = "b9cd77b3-e380-4569-81ac-7032ddf0804b";
         JoeyJac1234 = "851a672f-8ee2-49a1-aeb6-ca33ec028255";
+        PumpkinLordO = "17173fdc-fa37-4405-9e85-accc2bc701b6";
       };
 
       operators = {

@@ -46,12 +46,35 @@
     ms-python.python
     ms-azuretools.vscode-docker
     ms-azuretools.vscode-containers
-    github.copilot
     github.copilot-chat
-
-    (pkgs.callPackage ../../pkgs/vscode/extensions/google.gn {})
+    # polarboi.zenful or zenful.editors.vscode
   ];
+  # fails because of:
+  #
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>   File "/nix/store/73mwy44y8qkwnczcpj64xfrcmv1vgl8i-python3-3.13.11-env/lib/python3.13/subprocess.py", line 1039, in __init__
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>     self._execute_child(args, executable, preexec_fn, close_fds,
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>                         pass_fds, cwd, env,
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>                         ^^^^^^^^^^^^^^^^^^^
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>     ...<5 lines>...
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>                         gid, gids, uid, umask,
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>                         ^^^^^^^^^^^^^^^^^^^^^^
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>                         start_new_session, process_group)
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>   File "/nix/store/73mwy44y8qkwnczcpj64xfrcmv1vgl8i-python3-3.13.11-env/lib/python3.13/subprocess.py", line 1991, in _execute_child
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging>     raise child_exception_type(errno_num, err_msg, err_filename)
+  # vscode-lldb-codelldb-types-1.12.1-vendor-staging> FileNotFoundError: [Errno 2] No such file or directory: 'nix-prefetch-git'
+  #
+  # ++ (with pkgs.nix-vscode-extensions.vscode-marketplace-universal; [
+  #   vadimcn.vscode-lldb
+  # ]);
 in {
+  home.packages = [
+    # A list of LSPs that should be used
+    pkgs.starpls
+    # pkgs.zenful
+  ];
+
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-insiders.overrideAttrs (old: {
