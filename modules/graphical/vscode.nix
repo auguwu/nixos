@@ -46,7 +46,8 @@
     ms-python.python
     ms-azuretools.vscode-docker
     ms-azuretools.vscode-containers
-    github.copilot-chat
+    anthropic.claude-code
+
     # polarboi.zenful or zenful.editors.vscode
   ];
   # fails because of:

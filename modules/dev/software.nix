@@ -11,6 +11,13 @@
     # noelctl
     # noeldoc
 
+    # ai in my system?! it can happen
+    claude-code
+
+    # Bazel
+    bazel_8
+    bazel-buildtools
+
     # Language Servers
     tofu-ls
     starpls

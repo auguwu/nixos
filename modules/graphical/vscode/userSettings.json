@@ -60,9 +60,6 @@
         "editor.defaultFormatter": "jnoortheen.nix-ide",
         "editor.tabSize": 2
     },
-    "[gn]": {
-        "editor.defaultFormatter": "Google.gn"
-    },
     "[c]": {
         "editor.defaultFormatter": "xaver.clang-format"
     },
@@ -163,12 +160,12 @@
     "debug.javascript.codelens.npmScripts": "never",
     "git.timeline.showAuthor": false,
     "diffEditor.ignoreTrimWhitespace": false,
-    "typescript.updateImportsOnFileMove.enabled": "never",
+    "ts.updateImportsOnFileMove.enabled": "never",
     "security.workspace.trust.untrustedFiles": "open",
     "redhat.telemetry.enabled": false,
     "go.toolsManagement.autoUpdate": false,
     "go.toolsManagement.checkForUpdates": "off",
-    "javascript.updateImportsOnFileMove.enabled": "never",
+    "js.updateImportsOnFileMove.enabled": "never",
     "vs-kubernetes": {
         "vs-kubernetes.crd-code-completion": "enabled"
     },
@@ -182,9 +179,5 @@
         "https://www.schemastore.org/": true,
         "https://json-schema.org/": true,
         "https://docs.renovatebot.com/": true
-    },
-
-    "github.copilot.enable": {
-        "*": false
     }
 }
