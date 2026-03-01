@@ -5,7 +5,9 @@
   ...
 }: {
   programs.draconisplusplus = {
-    enable = machine != "yuzu";
+    # currently breaks because it depends on dbus statically, which is
+    # broken right now.
+    enable = false; # enable = machine != "yuzu";
     configFormat = "hpp";
     username = "Noel";
     staticPlugins = ["weather" "now_playing"];
