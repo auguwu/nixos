@@ -10,7 +10,7 @@
     settings = {
       experimental-features = "nix-command flakes";
       trusted-users = ["noel"];
-      sandbox = true;
+      sandbox = "relaxed";
 
       trusted-substituters = [
         "https://cache.nixos.org"
