@@ -148,11 +148,6 @@
     "opentofu.experimentalFeatures.validateOnSave": true,
     "opentofu.languageServer.enable": true,
 
-    "powershell.powerShellDefaultVersion": "nixpkgs",
-    "powershell.powerShellAdditionalExePaths": {
-        "nixpkgs": "/pwsh"
-    },
-
     "telemetry.telemetryLevel": "off",
     "update.mode": "none",
     "explorer.confirmDelete": false,

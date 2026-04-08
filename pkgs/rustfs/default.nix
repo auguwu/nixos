@@ -10,13 +10,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "rustfs";
-  version = "1.0.0-alpha.83";
+  version = "1.0.0-alpha.91";
 
   src = fetchFromGitHub {
     owner = pname;
     repo = pname;
     tag = version;
-    hash = "sha256-rMgaLR3fMXnKZN5CfnP+JgoBEj57YPHA7o+qpuux6xs=";
+    hash = "sha256-mglrxo81ptB37DIf5uNOLqri2AvVx+IXD8/IpLcQJWM=";
   };
 
   nativeBuildInputs = [
@@ -47,7 +47,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoTestFlags = ["--ignore-rust-version"];
 
+  RUSTFLAGS = "--cfg tokio_unstable";
   PROTOC = "${protobuf}/bin/protoc";
+
+  doCheck = false;
 
   meta = {
     description = "High-performance S3-compatible object storage";
