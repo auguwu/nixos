@@ -1,9 +1,9 @@
 <div align="center">
-    <h3><code>noel@floofbox</code> | <code>noel@kotoha</code> | <code>noel@yuzu</code> | <code>noel@hokkaido</code></h3>
+    <h3><code>noel@floofbox</code> | <code>noel@kotoha</code> | <code>noel@yuzu</code> | <code>noel@hokkaido</code> | <code>noel@akita</code></h3>
     <h4><i>nix flake configuration for my workstation, laptop, Mac Mini, and future NAS server</i></h4>
 </div>
 
-This repository contains the configurations for my NixOS machines: **floofbox**, **kotoha**, **yuzu**, and **hokkaido**.
+This repository contains the configurations for my NixOS machines: **floofbox**, **kotoha**, **yuzu**, **hokkaido**, and **akita**.
 
 ## `noel@floofbox`
 **floofbox** is my current workstation that I use at home to play games and write code. It has all IDEs and Visual Studio Code avaliable and has Steam available for games supported on Linux.
@@ -30,3 +30,6 @@ It runs a multitude of services like:
 * All of my websites ([`floofy.dev`](https://floofy.dev), [`noel.pink`](https://noel.pink)).
 
 ...and much more!
+
+## `noel@akita`
+**Akita** {秋田} is a edge server in the **United Kingdom** hosted by one of my lovely friends. It hosts important services like Vaultwarden, in case that `noel@hokkaido` fails, it'll go to `noel@akita`.

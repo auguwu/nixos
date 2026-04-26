@@ -4,10 +4,10 @@ _: {
     limine = {
       enable = true;
 
-      # Only 2 generations are present so that you can boot into
+      # Only the last 4 + current generations are present so that you can boot into
       # the latest one and the previous one in case the latest
       # breaks.
-      maxGenerations = 2;
+      maxGenerations = 5;
       style = {
         wallpaperStyle = "centered";
         interface.brandingColor = 5; # Magenta

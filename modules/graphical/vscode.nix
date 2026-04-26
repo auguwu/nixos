@@ -49,6 +49,7 @@
       ms-azuretools.vscode-containers
       anthropic.claude-code
       drblury.protobuf-vsc
+      mesonbuild.mesonbuild
     ]
     ++ (with pkgs.nix-vscode-extensions.vscode-marketplace-universal; [
       vadimcn.vscode-lldb
@@ -57,6 +58,7 @@ in {
   home.packages = with pkgs; [
     # A list of LSPs that should be used
     starpls
+    mesonlsp
 
     # Used for the Protobuf VSCode extension
     protobuf
@@ -78,6 +80,13 @@ in {
           "powershell.powerShellAdditionalExePaths" = {
             "Nixpkgs" = "${pkgs.powershell}/bin/pwsh";
           };
+
+          "mesonbuild.selectRootDir" = false;
+          "mesonbuild.configureOnOpen" = true;
+          "mesonbuild.mesonPath" = "${pkgs.meson}/bin/meson";
+          "mesonbuild.languageServerPath" = "${pkgs.mesonlsp}/bin/mesonlsp";
+          "mesonbuild.downloadLanguageServer" = false;
+          "mesonbuild.modifySettings" = false;
         }
         // userSettings;
     };

@@ -1,6 +1,7 @@
 # inspired by & credit for most of this goes to:
 # https://github.com/mitchellh/nixos-config/blob/main/lib/mksystem.nix
 {
+  self,
   inputs,
   nixpkgs,
   overlays,
@@ -21,6 +22,8 @@ in
 
     specialArgs = {
       inherit graphical system inputs machine;
+
+      flakeRoot = self;
     };
 
     modules =

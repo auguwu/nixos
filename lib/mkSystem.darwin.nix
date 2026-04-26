@@ -1,4 +1,5 @@
 {
+  self,
   inputs,
   nixpkgs,
   overlays,
@@ -19,6 +20,8 @@ in
 
     specialArgs = {
       inherit graphical system inputs machine;
+
+      flakeRoot = self;
     };
 
     modules = [

@@ -2,4 +2,6 @@
 # ----------------------------------------------------------------------------------------
 # ./hack/runHokkaidoVM :: This will spawn a virtual machine that provisions the `hokkaido`
 # system. This is useful for testing features before landing in production.
+#
+# This will create a 120G QCOW2 image inside of the directory and creates a QEMU VM.
 # ----------------------------------------------------------------------------------------

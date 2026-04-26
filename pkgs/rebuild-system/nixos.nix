@@ -18,6 +18,7 @@ writeShellApplication {
     (
       set -euo pipefail && \
         sudo nixos-rebuild switch --flake /etc/nixos#${machine} \
+          --impure \
           --accept-flake-config \
           --show-trace \
           --log-format internal-json 2>&1 |& nom --json

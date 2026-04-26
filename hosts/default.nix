@@ -1,4 +1,5 @@
 {
+  self,
   nixpkgs,
   inputs,
   overlays,
@@ -7,11 +8,11 @@
   inherit (inputs) hardware lanzaboote sops-nix nix-minecraft;
 
   mkNixSystem = import ../lib/mkSystem.nixos.nix {
-    inherit nixpkgs inputs overlays;
+    inherit self nixpkgs inputs overlays;
   };
 
   mkDarwinSystem = import ../lib/mkSystem.darwin.nix {
-    inherit nixpkgs inputs overlays;
+    inherit self nixpkgs inputs overlays;
   };
 
   machines = {
@@ -58,6 +59,15 @@
           sops-nix.nixosModules.sops
         ];
       }
+
+      # {
+      #   name = "akita";
+      #   system = "x86_64-linux";
+      #   graphical = false;
+      #   modules = [
+      #     sops-nix.nixosModules.sops
+      #   ];
+      # }
     ];
 
     darwin = [
@@ -86,7 +96,47 @@ in {
       })
       machines.nixos)
     // {
-      # TODO(@auguwu): iso-linux-x64 and iso-linux-aarch64
+      iso-linux-x64 = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit system nixpkgs;
+
+          graphical = false;
+          machine = "nixos-iso";
+          flakeRoot = self;
+        };
+
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            nixpkgs.config = {
+              allowUnfree = true;
+            };
+          }
+
+          ./iso
+        ];
+      };
+
+      iso-linux-aarch64 = nixpkgs.lib.mkSystem rec {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit system inputs;
+
+          graphical = false;
+          machine = "nixos-iso";
+          flakeRoot = self;
+        };
+
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            nixpkgs.config.allowUnfree = true;
+          }
+
+          ./iso
+        ];
+      };
     };
 
   darwinConfigurations = listToAttrs (map ({

@@ -84,6 +84,7 @@
     lanzaboote,
     darwin,
     nix-minecraft,
+    ume,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -107,7 +108,7 @@
           config.allowUnfree = true;
         }));
   in {
-    inherit (import ./hosts {inherit nixpkgs inputs overlays;}) nixosConfigurations darwinConfigurations;
+    inherit (import ./hosts {inherit self nixpkgs inputs overlays;}) nixosConfigurations darwinConfigurations;
 
     formatter = eachSystem (pkgs: pkgs.alejandra);
     packages = eachSystem (pkgs: import ./pkgs {} pkgs);
