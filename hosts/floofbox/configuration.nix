@@ -33,7 +33,6 @@
 
     ../../services/openssh.nix
 
-    /etc/nixos/hosts/floofbox/modules/wireguard.nix
     ./hardware.nix
   ];
 

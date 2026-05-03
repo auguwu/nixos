@@ -113,7 +113,21 @@
     formatter = eachSystem (pkgs: pkgs.alejandra);
     packages = eachSystem (pkgs: import ./pkgs {} pkgs);
 
-    # This will allow to build `noel@hokkaido` as a virtual-machine for testing
-    vms.hokkaido-test = self.nixosConfigurations.hokkaido.config.system.build.vm;
+    isos = builtins.listToAttrs (map (system: {
+      name = system;
+      value = self.nixosConfigurations."iso-${system}".config.system.build.isoImage;
+    }) ["linux-x64" "linux-aarch64"]);
+
+    # This will allow to build `noel@{hokkaido,akita}` as a virtual-machine for testing
+    # also the ISOs in case if they fail to work
+    vms = builtins.listToAttrs (map (vm: {
+        name = vm;
+        value = self.nixosConfigurations.${vm}.config.system.build.vm;
+      }) [
+        "hokkaido"
+        "akita"
+        "iso-linux-x64"
+        "iso-linux-aarch64"
+      ]);
   };
 }

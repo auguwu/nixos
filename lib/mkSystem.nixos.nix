@@ -31,7 +31,12 @@ in
         # Configures the system's nixpkgs
         {
           nixpkgs.overlays = overlays;
-          nixpkgs.config.allowUnfree = true;
+          nixpkgs.config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [
+              "openssl-1.1.1w"
+            ];
+          };
         }
 
         # Include the machine-specific configuration
