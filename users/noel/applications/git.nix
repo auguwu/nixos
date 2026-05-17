@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  machine,
+  ...
+}: {
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
@@ -12,7 +16,7 @@
       pull.rebase = true;
       safe.directory = "*"; # i don't care
       push.autoSetupRemote = true;
-      commit.gpgsign = true;
+      commit.gpgsign = machine != "yuzu"; # i don't have my gpg key setup on
       credential.helper = "libsecret";
     };
   };

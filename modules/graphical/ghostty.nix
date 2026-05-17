@@ -1,12 +1,17 @@
-{machine, ...}: {
+{pkgs, ...}: {
   programs.ghostty = {
-    enable = machine != "yuzu"; # Ghostty on macOS is pretty broken, the Homebrew version is used instead
+    enable = true;
+    package =
+      if pkgs.stdenv.isLinux
+      then pkgs.ghostty
+      else pkgs.ghostty-bin;
+
     installBatSyntax = true;
     enableZshIntegration = true;
     settings = {
       font-family = "JetBrains Mono";
-      theme = "Material Darker";
-      font-size = 14;
+      theme = "Iceberg Dark";
+      font-size = 15;
       background-image = "${../../wallpapers/littlearrowdog.jpg}";
       background-image-opacity = 0.025;
       background-image-fit = "cover";

@@ -31,6 +31,8 @@ in {
       # Mac Mini (noel@yuzu)
 
       # NAS Server (noel@hokkaido)
+
+      # Edge Server (noel@akita)
     ];
   };
 }

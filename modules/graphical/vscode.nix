@@ -65,7 +65,7 @@ in {
     grpcurl
   ];
 
-  programs.vscode = {
+  programs.vscode-insiders = {
     enable = true;
     package = pkgs.vscode-insiders.overrideAttrs (old: {
       buildInputs = old.buildInputs ++ [pkgs.krb5];
@@ -74,6 +74,7 @@ in {
     profiles.default = {
       inherit extensions;
 
+      enableUpdateCheck = false;
       userSettings =
         {
           "powershell.powerShellDefaultVersion" = "Nixpkgs";

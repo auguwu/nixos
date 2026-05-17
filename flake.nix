@@ -72,6 +72,11 @@
       url = "github:Infinidoge/nix-minecraft";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nh = {
+      url = "github:nix-community/nh";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -85,6 +90,7 @@
     darwin,
     nix-minecraft,
     ume,
+    nh,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -95,6 +101,7 @@
       darwin.overlays.default
       nix-minecraft.overlay
       # ume.overlays.default
+      nh.overlays.default
 
       (import noelware)
       (import ./pkgs)

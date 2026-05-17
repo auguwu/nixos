@@ -20,7 +20,6 @@ in
 
     specialArgs = {
       inherit graphical system inputs machine;
-
       flakeRoot = self;
     };
 
@@ -49,6 +48,7 @@ in
 
           sharedModules = [
             inputs.draconis.homeModules.default
+            (import ../homeManagerModules/vscode-insiders.nix {inherit inputs;})
           ];
 
           extraSpecialArgs = {

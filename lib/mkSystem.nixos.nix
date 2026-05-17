@@ -58,6 +58,7 @@ in
 
             sharedModules = [
               inputs.draconis.homeModules.default
+              (import ../homeManagerModules/vscode-insiders.nix {inherit inputs;})
             ];
 
             extraSpecialArgs = {

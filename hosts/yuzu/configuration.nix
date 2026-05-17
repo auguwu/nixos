@@ -44,7 +44,6 @@
     # fucked in a way, so we'll use Homebrew for now.
     casks = [
       "discord@canary"
-      "ghostty"
     ];
   };
 

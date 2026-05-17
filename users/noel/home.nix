@@ -46,6 +46,8 @@
           };
       })
       apps);
+
+  rebuild-system = pkgs.callPackage ../../pkgs/rebuild-system {inherit machine;};
 in {
   imports =
     [
@@ -59,13 +61,13 @@ in {
     ]
     ++ lib.optionals graphical [
       ../../modules/graphical/programs.nix
+      ../../modules/graphical/ghostty.nix
     ]
     ++ lib.optionals withVSCode [
       ../../modules/graphical/vscode.nix
     ]
     ++ lib.optionals withIDEs [
       ../../modules/graphical/jetbrains.nix
-      ../../modules/graphical/ghostty.nix
 
       ./applications/gh.nix
     ]
@@ -76,12 +78,7 @@ in {
 
   home = {
     packages = [
-      (pkgs.callPackage
-        ../../pkgs/rebuild-system/${
-          if machine == "yuzu"
-          then "darwin"
-          else "nixos"
-        }.nix {inherit machine;})
+      rebuild-system
     ];
 
     sessionVariables = {

@@ -27,5 +27,6 @@
     git
     yq
     jq
+    nh
   ];
 }
