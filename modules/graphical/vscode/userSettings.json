@@ -174,5 +174,6 @@
         "https://www.schemastore.org/": true,
         "https://json-schema.org/": true,
         "https://docs.renovatebot.com/": true
-    }
+    },
+    "claudeCode.preferredLocation": "sidebar"
 }

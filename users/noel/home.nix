@@ -73,7 +73,6 @@ in {
     ]
     ++ lib.optionals gaming [
       ../../modules/gaming/minecraft.nix
-      ../../modules/gaming/heroic.nix
     ];
 
   home = {
@@ -97,15 +96,19 @@ in {
     homeDirectory = homedir;
     stateVersion = "23.05";
     username = lib.mkForce "noel";
-    file = lib.mkIf (graphical && machine != "yuzu") (buildAutoStartFiles (with pkgs; [
-        (discord-canary.override {
-          withVencord = true;
-        })
+    file = lib.mkIf (graphical && machine != "yuzu") (buildAutoStartFiles (with pkgs;
+        [
+          (discord-canary.override {
+            withVencord = true;
+          })
 
-        telegram-desktop
-        spotify
-        firefox
-      ])
+          telegram-desktop
+          spotify
+          firefox
+        ]
+        ++ lib.optionals gaming [
+          steam
+        ])
       // {
         ".wallpapers/littlearrowdog".source = ../../wallpapers/littlearrowdog.jpg;
       });
