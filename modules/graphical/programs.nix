@@ -1,16 +1,17 @@
 {
   pkgs,
   machine,
+  lib,
   ...
 }:
-if machine != "yuzu"
-then {
+lib.mkIf (machine != "yuzu")
+{
   home.packages = with pkgs; [
     (discord-canary.override {
       withVencord = true;
     })
 
-    # youtrack-desktop
+    # plane-desktop
     # cattle
     # seoul
 
@@ -20,4 +21,3 @@ then {
     slack
   ];
 }
-else {}

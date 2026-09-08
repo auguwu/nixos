@@ -19,8 +19,6 @@
       jnoortheen.nix-ide
       rust-lang.rust-analyzer
       bradlc.vscode-tailwindcss
-      dbaeumer.vscode-eslint
-      esbenp.prettier-vscode
       mkhl.direnv
       ms-azuretools.vscode-docker
       github.vscode-github-actions
@@ -52,6 +50,9 @@
       mesonbuild.mesonbuild
     ]
     ++ (with pkgs.nix-vscode-extensions.vscode-marketplace-universal; [
+      oxc.oxc-vscode
+    ])
+    ++ (with pkgs.nix-vscode-extensions.open-vsx-universal; [
       vadimcn.vscode-lldb
     ]);
 in {
@@ -62,7 +63,7 @@ in {
 
     # Used for the Protobuf VSCode extension
     protobuf
-    grpcurl
+    buf
   ];
 
   programs.vscode-insiders = {
@@ -82,12 +83,17 @@ in {
             "Nixpkgs" = "${pkgs.powershell}/bin/pwsh";
           };
 
+          "bazel.lsp.command" = "${pkgs.starpls}/bin/starpls";
+
           "mesonbuild.selectRootDir" = false;
           "mesonbuild.configureOnOpen" = true;
           "mesonbuild.mesonPath" = "${pkgs.meson}/bin/meson";
           "mesonbuild.languageServerPath" = "${pkgs.mesonlsp}/bin/mesonlsp";
           "mesonbuild.downloadLanguageServer" = false;
           "mesonbuild.modifySettings" = false;
+
+          "oxc.path.oxlint" = "${pkgs.oxlint}/bin/oxlint";
+          "oxc.path.oxfmt" = "${pkgs.oxfmt}/bin/oxfmt";
         }
         // userSettings;
     };

@@ -28,7 +28,7 @@ rustPlatform.buildRustPackage rec {
     [
       openssl
     ]
-    ++ lib.optionals stdenv.isDarwin [
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
       apple-sdk_15
     ];
 

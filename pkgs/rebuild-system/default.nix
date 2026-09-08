@@ -6,12 +6,12 @@
   machine,
 }: let
   location =
-    if stdenv.isLinux
+    if stdenv.hostPlatform.isLinux
     then "/etc/nixos"
     else "/etc/nix-darwin";
 
   subcmd =
-    if stdenv.isLinux
+    if stdenv.hostPlatform.isLinux
     then "os"
     else "darwin";
 in

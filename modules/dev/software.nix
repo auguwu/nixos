@@ -11,11 +11,14 @@
     # noelctl
     # noeldoc
 
-    # ai in my system?! it can happen
+    # ai in my system?! it can happen :pensive:
     claude-code
 
+    # Node.js
+    nodejs_latest
+
     # Bazel
-    bazel_8
+    bazel_9
     bazel-buildtools
 
     # Language Servers

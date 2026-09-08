@@ -102,30 +102,11 @@
     "terminal.integrated.tabs.enabled": true,
     "terminal.integrated.fontSize": 16,
 
-    "eslint.validate": [
-        "typescript",
-        "javascript",
-        "typescriptreact",
-        "javascriptreact",
-        "html",
-        "vue",
-        "astro"
+    "bazel.lsp.args": [
+        "server",
+        "--experimental_infer_ctx_attributes",
+        "--experimental_enable_label_completions"
     ],
-    "eslint.probe": [
-        "typescript",
-        "javascript",
-        "typescriptreact",
-        "javascriptreact",
-        "html",
-        "vue",
-        "astro"
-    ],
-
-    "prettier.vueIndentScriptAndStyle": true,
-    "prettier.requireConfig": true,
-
-    "bazel.lsp.command": "starpls",
-    "bazel.lsp.args": ["server", "--experimental_infer_ctx_attributes", "--experimental_enable_label_completions"],
 
     "nix.enableLanguageServer": true,
     "nix.serverPath": "nil",
@@ -147,6 +128,8 @@
 
     "opentofu.experimentalFeatures.validateOnSave": true,
     "opentofu.languageServer.enable": true,
+
+    "oxc.enable": true,
 
     "telemetry.telemetryLevel": "off",
     "update.mode": "none",

@@ -9,7 +9,7 @@
   ...
 }: let
   homedir =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then "/Users/noel"
     else "/home/noel";
 

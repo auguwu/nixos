@@ -1,9 +1,9 @@
 <div align="center">
-    <h3><code>noel@floofbox</code> | <code>noel@kotoha</code> | <code>noel@yuzu</code> | <code>noel@hokkaido</code> | <code>noel@akita</code></h3>
-    <h4><i>nix flake configuration for my workstation, laptop, Mac Mini, and future NAS server</i></h4>
+    <h3><code>noel@floofbox</code> | <code>noel@kotoha</code> | <code>noel@yuzu</code> | <code>noel@hokkaido</code> | <code>noel@akita</code> | <code>noel@dva</code></h3>
+    <h4><i>Nix flake configuration for all of my machines</i></h4>
 </div>
 
-This repository contains the configurations for my NixOS machines: **floofbox**, **kotoha**, **yuzu**, **hokkaido**, and **akita**.
+This repository contains the configurations for my NixOS machines: **floofbox**, **kotoha**, **yuzu**, **hokkaido**, **akita**, and **dva**.
 
 ## `noel@floofbox`
 **floofbox** is my current workstation that I use at home to play games and write code. It has all IDEs and Visual Studio Code avaliable and has Steam available for games supported on Linux.
@@ -33,3 +33,6 @@ It runs a multitude of services like:
 
 ## `noel@akita`
 **Akita** {秋田} is a edge server in the **United Kingdom** hosted by one of my lovely friends. It hosts important services like Vaultwarden, in case that `noel@hokkaido` fails, it'll go to `noel@akita`.
+
+## `noel@dva`
+**noel@dva** is my small server that runs PiHole and other networking-related services. And, yes, the name is inspired by [D.va from Overwatch](https://overwatch.fandom.com/wiki/D.Va).
