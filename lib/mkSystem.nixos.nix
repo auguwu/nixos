@@ -12,6 +12,7 @@
   withIDEs ? false,
   withVSCode ? false,
   gaming ? false,
+  ai ? false,
 }: let
   machineConfig = ../hosts/${machine}/configuration.nix;
   userConfig = ../users/noel/nixos.nix;
@@ -62,7 +63,7 @@ in
             ];
 
             extraSpecialArgs = {
-              inherit graphical machine inputs system withIDEs withVSCode gaming;
+              inherit graphical machine inputs system withIDEs withVSCode gaming ai;
             };
           };
         }

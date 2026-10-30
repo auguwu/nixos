@@ -33,6 +33,8 @@ in {
       # NAS Server (noel@hokkaido)
 
       # Edge Server (noel@akita)
+
+      # Router (noel@dva)
     ];
   };
 }

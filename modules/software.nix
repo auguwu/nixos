@@ -5,9 +5,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # used to migrate data, all systems should have it
-    minio-client
-
     # utilities
     nix-output-monitor
     ripgrep

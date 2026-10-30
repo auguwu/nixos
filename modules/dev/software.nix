@@ -4,15 +4,11 @@
       plugins = [];
     })
 
-    minio-client
     opentofu
     direnv
 
     # noelctl
     # noeldoc
-
-    # ai in my system?! it can happen :pensive:
-    claude-code
 
     # Node.js
     nodejs_latest

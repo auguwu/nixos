@@ -95,17 +95,46 @@
   } @ inputs: let
     inherit (nixpkgs) lib;
 
-    overlays = [
-      nix-vscode-extensions.overlays.default
-      vscode-insiders.overlays.default
-      darwin.overlays.default
-      nix-minecraft.overlay
-      # ume.overlays.default
-      nh.overlays.default
+    patchedOverlays = [
+      # TODO(auguwu/Noel): remove once NixOS/nixpkgs#580650 lands in the channel
+      (final: prev: let
+        patched = prev.applyPatches {
+          name = "nixpkgs-discord-pr-580650";
+          src = nixpkgs;
+          patches = [
+            (prev.fetchpatch2 {
+              url = "https://github.com/NixOS/nixpkgs/commit/dde65bd72899c015696032345a4221ab635ff41e.patch";
+              hash = "sha256-h8brgatqnglEqcae7GKQqXqJ4bDDDxV9dxa0sXmjvqs=";
+            })
+          ];
+        };
 
-      (import noelware)
-      (import ./pkgs)
+        pkgs = import patched {
+          system = prev.stdenv.hostPlatform.system;
+          config.allowUnfree = true;
+        };
+
+        discord-canary = pkgs.discord-canary.override {
+          withVencord = true;
+        };
+      in {
+        inherit discord-canary;
+      })
     ];
+
+    overlays =
+      [
+        nix-vscode-extensions.overlays.default
+        vscode-insiders.overlays.default
+        darwin.overlays.default
+        nix-minecraft.overlay
+        # ume.overlays.default
+        nh.overlays.default
+
+        (import noelware)
+        (import ./pkgs)
+      ]
+      ++ patchedOverlays;
 
     eachSystem = f:
       lib.genAttrs ["x86_64-linux" "aarch64-darwin"] (system:

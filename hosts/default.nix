@@ -23,6 +23,7 @@
         withIDEs = true;
         withVSCode = true;
         gaming = true;
+        ai = true;
 
         modules = [
           hardware.nixosModules.common-cpu-amd
@@ -40,6 +41,7 @@
         system = "x86_64-linux";
         withIDEs = true;
         withVSCode = true;
+        ai = true;
 
         modules = [
           hardware.nixosModules.framework-13-7040-amd
@@ -68,6 +70,15 @@
       #     sops-nix.nixosModules.sops
       #   ];
       # }
+
+      # {
+      #   name = "dva";
+      #   system = "x86_64-linux";
+      #   graphical = false;
+      #   modules = [
+      #     sops-nix.nixosModules.sops
+      #   ];
+      # }
     ];
 
     darwin = [
@@ -87,11 +98,12 @@ in {
         withIDEs ? false,
         withVSCode ? false,
         gaming ? false,
+        ai ? false,
       }: {
         inherit name;
 
         value = mkNixSystem name {
-          inherit system modules graphical withIDEs withVSCode gaming;
+          inherit system modules graphical withIDEs withVSCode gaming ai;
         };
       })
       machines.nixos)

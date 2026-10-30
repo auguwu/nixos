@@ -6,6 +6,7 @@
   withVSCode ? false,
   withIDEs ? false,
   gaming ? false,
+  ai ? false,
   ...
 }: let
   homedir =
@@ -73,6 +74,9 @@ in {
     ]
     ++ lib.optionals gaming [
       ../../modules/gaming/minecraft.nix
+    ]
+    ++ lib.optionals ai [
+      ./applications/ai.nix
     ];
 
   home = {
@@ -99,7 +103,7 @@ in {
     file = lib.mkIf (graphical && machine != "yuzu") (buildAutoStartFiles (with pkgs;
         [
           (discord-canary.override {
-            withVencord = true;
+            #withVencord = true;
           })
 
           telegram-desktop
