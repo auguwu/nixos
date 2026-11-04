@@ -8,7 +8,7 @@ lib.mkIf (machine != "yuzu")
 {
   home.packages = with pkgs; [
     (discord-canary.override {
-      #withVencord = true;
+      withVencord = true;
     })
 
     # plane-desktop

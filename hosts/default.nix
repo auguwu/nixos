@@ -71,14 +71,14 @@
       #   ];
       # }
 
-      # {
-      #   name = "dva";
-      #   system = "x86_64-linux";
-      #   graphical = false;
-      #   modules = [
-      #     sops-nix.nixosModules.sops
-      #   ];
-      # }
+      {
+        name = "dva";
+        system = "x86_64-linux";
+        graphical = false;
+        modules = [
+          sops-nix.nixosModules.sops
+        ];
+      }
     ];
 
     darwin = [

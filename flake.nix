@@ -96,29 +96,27 @@
     inherit (nixpkgs) lib;
 
     patchedOverlays = [
-      # TODO(auguwu/Noel): remove once NixOS/nixpkgs#580650 lands in the channel
-      (final: prev: let
-        patched = prev.applyPatches {
-          name = "nixpkgs-discord-pr-580650";
-          src = nixpkgs;
-          patches = [
-            (prev.fetchpatch2 {
-              url = "https://github.com/NixOS/nixpkgs/commit/dde65bd72899c015696032345a4221ab635ff41e.patch";
-              hash = "sha256-h8brgatqnglEqcae7GKQqXqJ4bDDDxV9dxa0sXmjvqs=";
-            })
-          ];
-        };
+      (final: prev: {
+        vencord = prev.vencord.overrideAttrs (old: rec {
+          version = "1.15.16";
+          src = prev.fetchFromGitHub {
+            owner = "Vendicated";
+            repo = "Vencord";
+            tag = "v${version}";
+            hash = "sha256-aUJubLJpyLAZWiOezqFxPY6oVPgWVPQpajFqrJvrO9U=";
+          };
 
-        pkgs = import patched {
-          system = prev.stdenv.hostPlatform.system;
-          config.allowUnfree = true;
-        };
+          patches = [];
+          postPatch = "";
+          pnpmDeps = prev.fetchPnpmDeps {
+            inherit (old) pname;
+            inherit version src patches postPatch;
 
-        discord-canary = pkgs.discord-canary.override {
-          withVencord = true;
-        };
-      in {
-        inherit discord-canary;
+            pnpm = prev.pnpm_11;
+            fetcherVersion = 4;
+            hash = "sha256-HS8uZNepvDefjrsG3buVLFCVv7sHvazcwdpcT3EQ/78=";
+          };
+        });
       })
     ];
 
@@ -154,7 +152,7 @@
       value = self.nixosConfigurations."iso-${system}".config.system.build.isoImage;
     }) ["linux-x64" "linux-aarch64"]);
 
-    # This will allow to build `noel@{hokkaido,akita}` as a virtual-machine for testing
+    # This will allow to build `noel@{hokkaido,akita,dva}` as a virtual-machine for testing
     # also the ISOs in case if they fail to work
     vms = builtins.listToAttrs (map (vm: {
         name = vm;
@@ -162,8 +160,7 @@
       }) [
         "hokkaido"
         "akita"
-        "iso-linux-x64"
-        "iso-linux-aarch64"
+        "dva"
       ]);
   };
 }

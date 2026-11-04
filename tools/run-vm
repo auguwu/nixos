@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------------------- #
+# ./tools/run-vm <host> [qemu args...] :: This will spawn a virtual machine that provisions   #
+# the given `nixosConfigurations.<host>` system. This is useful for testing features before   #
+# landing in production.                                                                      #
+#                                                                                             #
+# The VM's QCOW2 disk image is kept in `.vms/<host>.qcow2` (override with `$NIX_DISK_IMAGE`). #
+# ------------------------------------------------------------------------------------------- #
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+host="${1:-}"
+hosts="$(nix eval --raw "$ROOT#vms" --apply 'vms: builtins.concatStringsSep "\n" (builtins.attrNames vms)')"
+
+if [[ -z "$host" ]] || ! grep -qxF "$host" <<<"$hosts"; then
+    [[ -n "$host" ]] && echo "ERROR: \`$host\` is not a NixOS configuration available" >&2
+    echo "USAGE: $0 <host> [QEMU args...]" >&2
+    echo "Available Hosts:" >&2
+    sed 's/^/  * /' <<<"$hosts" >&2
+
+    exit 1
+fi
+
+out=$(nom build --no-link --print-out-paths "$ROOT#vms.\"$host\"")
+
+export NIX_DISK_IMAGE="${NIX_DISK_IMAGE:-$ROOT/.vms/$host.qcow2}"
+mkdir -p "$(dirname "$NIX_DISK_IMAGE")"
+
+runners=(
+    "$out"/bin/run-*-vm
+)
+
+exec "${runners[0]}" "${@:2}"

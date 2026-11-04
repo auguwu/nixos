@@ -103,7 +103,7 @@ in {
     file = lib.mkIf (graphical && machine != "yuzu") (buildAutoStartFiles (with pkgs;
         [
           (discord-canary.override {
-            #withVencord = true;
+            withVencord = true;
           })
 
           telegram-desktop
